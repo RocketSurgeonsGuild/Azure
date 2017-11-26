@@ -1,0 +1,37 @@
+<Project>
+    <PropertyGroup>
+        <Company>Rocket Surgeons Guild</Company>
+        <Copyright>Copyright David Driscoll © 2017</Copyright>
+        <Authors>David Driscoll</Authors>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup>
+        <RSG_Build_Version>1.2.1</RSG_Build_Version>
+        <RSG_Builders_Version>0.4.0</RSG_Builders_Version>
+        <RSG_Conventions_Version>0.4.1</RSG_Conventions_Version>
+        <RSG_DependencyInjection_Version>0.3.1</RSG_DependencyInjection_Version>
+        <RSG_Extensions_Version>0.1.0</RSG_Extensions_Version>
+        <Microsoft_NET_Sdk_Functions_Version>1.0.6</Microsoft_NET_Sdk_Functions_Version>
+        <Autofac_Extras_CommonServiceLocator_Version>5.0.0</Autofac_Extras_CommonServiceLocator_Version>
+        <Autofac_Version>4.6.2</Autofac_Version>
+        <NodaTime_Version>2.2.3</NodaTime_Version>
+        <NodaTime_Serialization_Version>2.0.0</NodaTime_Serialization_Version>
+        <Newtonsoft_Json_Version>10.0.3</Newtonsoft_Json_Version>
+        <WindowsAzure_Storage_Version>8.6.0</WindowsAzure_Storage_Version>
+        <Microsoft_Azure_WebJobs_Version>2.1.0-beta4</Microsoft_Azure_WebJobs_Version>
+        <Microsoft_Extensions_Logging_Version>2.0.0</Microsoft_Extensions_Logging_Version>
+        <Microsoft_Extensions_Options_Version>2.0.0</Microsoft_Extensions_Options_Version>
+        <SourceLink_Version>2.6.0</SourceLink_Version>
+        <Microsoft_NET_Test_Sdk_Version>15.5.0</Microsoft_NET_Test_Sdk_Version>
+        <xunit_Version>2.3.1</xunit_Version>
+        <FluentAssertions_Version>5.0.0-beta0004</FluentAssertions_Version>
+        <FakeItEasy_Version>4.1.1</FakeItEasy_Version>
+        <Autofac_FakeItEasy_Version>5.0.0</Autofac_FakeItEasy_Version>
+        <RSG_Testing_Version>0.1.0</RSG_Testing_Version>
+    </PropertyGroup>
+    <!-- Overrides -->
+    <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3' or '$(TargetFramework)'=='net451'">
+        <Microsoft_Extensions_Logging_Version>1.1.2</Microsoft_Extensions_Logging_Version>
+        <Microsoft_Extensions_Options_Version>1.1.2</Microsoft_Extensions_Options_Version>
+    </PropertyGroup>
+</Project>
