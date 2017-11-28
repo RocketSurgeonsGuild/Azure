@@ -5,7 +5,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\Azure.Functions\Rocket.Surgery.Azure.Functions.csproj" />
         <ProjectReference Include="..\..\src\Azure.Storage\Rocket.Surgery.Azure.Storage.csproj" />
-        <ProjectReference Include="..\..\src\Azure.WebJobs\Rocket.Surgery.Azure.WebJobs.csproj" />
+        <PackageReference Include="Rocket.Surgery.Hosting" Version="$(RSG_Hosting_Version)" />
         <PackageReference Include="Newtonsoft.Json" Version="$(Newtonsoft_Json_Version)" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.0' or '$(TargetFramework)'=='net461'">

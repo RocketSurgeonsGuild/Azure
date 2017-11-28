@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Azure.WebJobs" Version="$(Microsoft_Azure_WebJobs_Version)" />
-        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions" Version="$(Microsoft_Azure_WebJobs_Version)" />
-    </ItemGroup>
-</Project>
