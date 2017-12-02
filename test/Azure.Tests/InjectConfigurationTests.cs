@@ -25,7 +25,7 @@ namespace Rocket.Surgery.Azure.Tests
         [Fact]
         public void Test1()
         {
-            var config = new InjectConfiguration();
+            var config = new ServiceConfiguration();
 
             config.Initialize(new ExtensionConfigContext()
             {

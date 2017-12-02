@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -8,6 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Host.Executors;
+using Microsoft.Extensions.DependencyInjection;
 using Rocket.Surgery.Azure.Functions;
 using Rocket.Surgery.Extensions.Testing;
 using Xunit;
@@ -17,14 +19,18 @@ namespace Rocket.Surgery.Azure.Tests
 {
     public class InjectBindingProviderTests : AutoTestBase
     {
-        public InjectBindingProviderTests(ITestOutputHelper outputHelper) : base(outputHelper) { }
+        public InjectBindingProviderTests(ITestOutputHelper outputHelper) : base(outputHelper)
+        {
+            var container = AutoFake.Resolve<IServiceProvider>();
+            A.CallTo(() => container.GetService(A<Type>._))
+                .ReturnsLazily(call => AutoFake.Container.Resolve(call.Arguments.First() as Type));
+        }
 
         [Fact]
         public void Should_GetAScope()
         {
-            var container = A.Fake<IContainer>();
-            AutoFake.Provide(container);
-            var provider = AutoFake.Resolve<InjectBindingProvider>();
+            var container = AutoFake.Resolve<IServiceProvider>();
+            var provider = AutoFake.Resolve<ServiceBindingProvider>();
             provider.GetScope(
                 new BindingContext(
                     new ValueBindingContext(
@@ -35,14 +41,13 @@ namespace Rocket.Surgery.Azure.Tests
                 )
             );
 
-            A.CallTo(() => container.BeginLifetimeScope(A<object>._)).MustHaveHappened();
+            A.CallTo(() => container.GetService(typeof(IServiceScopeFactory))).MustHaveHappened();
         }
 
         public async Task Should_CreateScope_OnExecuting()
         {
-            var container = A.Fake<IContainer>();
-            AutoFake.Provide(container);
-            IFunctionInvocationFilter provider = AutoFake.Resolve<InjectBindingProvider>();
+            var container = AutoFake.Resolve<IServiceProvider>();
+            IFunctionInvocationFilter provider = AutoFake.Resolve<ServiceBindingProvider>();
 
             await provider.OnExecutedAsync(
                 new FunctionExecutedContext(
@@ -56,15 +61,14 @@ namespace Rocket.Surgery.Azure.Tests
                 CancellationToken.None
             );
 
-            A.CallTo(() => container.BeginLifetimeScope(A<object>._)).MustNotHaveHappened();
+            A.CallTo(() => container.GetService(typeof(IServiceScopeFactory))).MustNotHaveHappened();
         }
 
         [Fact]
         public async Task Should_CreateAScopeOnlyOnce()
         {
-            var container = A.Fake<IContainer>();
-            AutoFake.Provide(container);
-            var provider = AutoFake.Resolve<InjectBindingProvider>();
+            var container = AutoFake.Resolve<IServiceProvider>();
+            var provider = AutoFake.Resolve<ServiceBindingProvider>();
             IFunctionInvocationFilter filter = provider;
 
             var id = Guid.NewGuid();
@@ -91,15 +95,14 @@ namespace Rocket.Surgery.Azure.Tests
                 )
             );
 
-            A.CallTo(() => container.BeginLifetimeScope(A<object>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => container.GetService(typeof(IServiceScopeFactory))).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
         public async Task Should_DisposeOfAScope()
         {
-            var container = A.Fake<IContainer>();
-            AutoFake.Provide(container);
-            var provider = AutoFake.Resolve<InjectBindingProvider>();
+            var container = AutoFake.Resolve<IServiceProvider>();
+            var provider = AutoFake.Resolve<ServiceBindingProvider>();
             IFunctionInvocationFilter filter = provider;
 
             var id = Guid.NewGuid();
@@ -137,7 +140,7 @@ namespace Rocket.Surgery.Azure.Tests
                 CancellationToken.None
             );
 
-            A.CallTo(() => container.BeginLifetimeScope(A<object>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => container.GetService(typeof(IServiceScopeFactory))).MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => scope.Dispose()).MustHaveHappened(Repeated.Exactly.Once);
         }
     }

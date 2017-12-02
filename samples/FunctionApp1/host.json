@@ -1,0 +1,12 @@
+{
+    "tracing": {
+        "consoleLevel": "verbose",
+        "fileLoggingMode": "debugOnly"
+    },
+    "logger": {
+        "defaultLevel": "Information",
+        "categoryLevels": {
+            "container": "Trace"
+        }
+    }
+}

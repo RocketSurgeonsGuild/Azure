@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Autofac;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Azure.WebJobs.Host.Protocols;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Rocket.Surgery.Azure.Functions
 {
-    public class InjectBinding : IBinding
+    public class ServiceBinding : IBinding
     {
-        private readonly Func<BindingContext, IComponentContext> _getContext;
+        private readonly Func<BindingContext, IServiceScope> _getContext;
         private readonly Type _type;
 
-        public InjectBinding(Func<BindingContext, IComponentContext> getContext, Type type)
+        public ServiceBinding(Func<BindingContext, IServiceScope> getContext, Type type)
         {
             _getContext = getContext;
             _type = type;
@@ -26,7 +26,16 @@ namespace Rocket.Surgery.Azure.Functions
         public async Task<IValueProvider> BindAsync(BindingContext context)
         {
             await Task.Yield();
-            var value = _getContext(context).Resolve(_type);
+
+            var type = _type;
+            if (type == typeof(ILogger))
+            {
+                return await BindAsync(
+                    new TraceWriterLogger(context.ValueContext.FunctionContext.Trace),
+                    context.ValueContext
+                );
+            }
+            var value = _getContext(context).ServiceProvider.GetRequiredService(_type);
             return await BindAsync(value, context.ValueContext);
         }
 

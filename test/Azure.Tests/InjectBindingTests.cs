@@ -8,6 +8,7 @@ using Autofac.Core;
 using FakeItEasy;
 using Microsoft.Azure.WebJobs.Extensions;
 using Microsoft.Azure.WebJobs.Host.Bindings;
+using Microsoft.Extensions.DependencyInjection;
 using Rocket.Surgery.Extensions.Testing;
 using Xunit;
 using Xunit.Abstractions;
@@ -22,10 +23,9 @@ namespace Rocket.Surgery.Azure.Tests
         [Fact]
         public async Task ShouldBindAsExpected()
         {
-            var context = A.Fake<Func<BindingContext, IComponentContext>>();
-            A.CallTo(() => context(A<BindingContext>._)).Returns(AutoFake.Container);
+            var context = A.Fake<Func<BindingContext, IServiceScope>>();
 
-            var binding = new InjectBinding(context, typeof(IComponentContext));
+            var binding = new ServiceBinding(context, typeof(IComponentContext));
 
             await binding.BindAsync(
                 new BindingContext(
