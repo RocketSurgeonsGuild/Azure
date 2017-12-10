@@ -68,6 +68,11 @@ namespace Rocket.Surgery.Azure.Functions
                 var container = builder.Build();
 
                 var injectBindingProvider = new ServiceBindingProvider(services, container, logger);
+
+                context.AddBindingRule<_Attribute>().Bind(injectBindingProvider);
+                context.AddBindingRule<InjectAttribute>().Bind(injectBindingProvider);
+                context.AddBindingRule<ServiceAttribute>().Bind(injectBindingProvider);
+
                 context.Config.RegisterBindingExtension(injectBindingProvider);
 
                 var registry = context.Config.GetService<IExtensionRegistry>();

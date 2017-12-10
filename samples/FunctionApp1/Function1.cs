@@ -48,7 +48,7 @@ namespace FunctionApp1
         [FunctionName("Health")]
         public static void Health(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")]HttpRequest req,
-            [Service] HelloWorld container)
+            [_] HelloWorld container)
         {
 
         }
@@ -56,8 +56,8 @@ namespace FunctionApp1
         [FunctionName("Function1")]
         public static void Run(
             [TimerTrigger("*/5 * * * * *")]TimerInfo myTimer,
-            [Service]             HelloWorld helloWorld,
-            ILogger log)
+            [_] HelloWorld helloWorld,
+            [_] ILogger log)
         {
             log.LogInformation($"C# Timer: {helloWorld.Value}");
             log.LogInformation($"C# Timer trigger function executed at: {helloWorld.Date}");

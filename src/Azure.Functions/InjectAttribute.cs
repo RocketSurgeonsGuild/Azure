@@ -4,5 +4,5 @@ using Microsoft.Azure.WebJobs.Description;
 namespace Rocket.Surgery.Azure.Functions
 {
     [Binding, AttributeUsage(AttributeTargets.Parameter)]
-    public class ServiceAttribute : Attribute { }
+    public class InjectAttribute : Attribute { }
 }
