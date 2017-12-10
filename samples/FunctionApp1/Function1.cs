@@ -34,6 +34,7 @@ namespace FunctionApp1
         public DateTimeOffset Date => DateTimeOffset.Now + TimeSpan.FromMinutes(-5);
         public string Value => $"Hello World! ({_myValue})";
     }
+
     class Contribution : IServiceConvention
     {
         public void Register(IServiceConventionContext context)
@@ -55,7 +56,7 @@ namespace FunctionApp1
         [FunctionName("Function1")]
         public static void Run(
             [TimerTrigger("*/5 * * * * *")]TimerInfo myTimer,
-            HelloWorld helloWorld,
+            [Service]             HelloWorld helloWorld,
             ILogger log)
         {
             log.LogInformation($"C# Timer: {helloWorld.Value}");

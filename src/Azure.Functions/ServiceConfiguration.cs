@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -79,66 +77,6 @@ namespace Rocket.Surgery.Azure.Functions
             catch (Exception e)
             {
                 logger.LogCritical(e, "error could not configure service");
-            }
-        }
-    }
-
-    class TraceWriterLogger : ILogger
-    {
-        private readonly TraceWriter _writer;
-
-        public TraceWriterLogger(TraceWriter writer)
-        {
-            _writer = writer;
-        }
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-        {
-            var @event = new TraceEvent(GetLogLevel(logLevel), formatter(state, exception), null, exception);
-            if (state is IEnumerable<KeyValuePair<string, object>> objectValues)
-            {
-                foreach (var value in objectValues)
-                {
-                    @event.Properties.Add(value.Key, value.Value);
-                }
-            }
-            else if (state is IEnumerable<KeyValuePair<string, string>> stringValues)
-            {
-                foreach (var value in stringValues)
-                {
-                    @event.Properties.Add(value.Key, value.Value);
-                }
-            }
-
-            _writer.Trace(@event);
-        }
-
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static TraceLevel GetLogLevel(LogLevel logLevel)
-        {
-            switch (logLevel)
-            {
-                case LogLevel.None:
-                    return TraceLevel.Off;
-                case LogLevel.Error:
-                    return TraceLevel.Error;
-                case LogLevel.Warning:
-                    return TraceLevel.Warning;
-                case LogLevel.Information:
-                    return TraceLevel.Info;
-                case LogLevel.Debug:
-                    return TraceLevel.Verbose;
-                default:
-                    throw new InvalidOperationException($"'{logLevel}' is not a valid level.");
             }
         }
     }
