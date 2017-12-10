@@ -20,7 +20,7 @@
         <NodaTime_Serialization_Version>2.0.0</NodaTime_Serialization_Version>
         <Newtonsoft_Json_Version>10.0.3</Newtonsoft_Json_Version>
         <WindowsAzure_Storage_Version>8.6.0</WindowsAzure_Storage_Version>
-        <Microsoft_Azure_WebJobs_Version>3.0.0-beta4</Microsoft_Azure_WebJobs_Version>
+        <Microsoft_Azure_WebJobs_Version>3.0.0-beta3</Microsoft_Azure_WebJobs_Version>
         <Microsoft_Extensions_Logging_Version>2.0.0</Microsoft_Extensions_Logging_Version>
         <Microsoft_Extensions_Options_Version>2.0.0</Microsoft_Extensions_Options_Version>
         <SourceLink_Version>2.6.0</SourceLink_Version>
