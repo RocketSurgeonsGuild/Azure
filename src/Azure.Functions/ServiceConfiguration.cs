@@ -73,8 +73,6 @@ namespace Rocket.Surgery.Azure.Functions
                 context.AddBindingRule<InjectAttribute>().Bind(injectBindingProvider);
                 context.AddBindingRule<ServiceAttribute>().Bind(injectBindingProvider);
 
-                context.Config.RegisterBindingExtension(injectBindingProvider);
-
                 var registry = context.Config.GetService<IExtensionRegistry>();
                 registry.RegisterExtension(typeof(IFunctionInvocationFilter), injectBindingProvider);
                 registry.RegisterExtension(typeof(IFunctionExceptionFilter), injectBindingProvider);
