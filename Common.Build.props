@@ -8,9 +8,9 @@
     <PropertyGroup>
         <RSG_Build_Version>1.2.1</RSG_Build_Version>
         <RSG_Builders_Version>0.5.0</RSG_Builders_Version>
-        <RSG_Configuration_Version>0.3.0</RSG_Configuration_Version>
-        <RSG_Conventions_Version>0.7.1</RSG_Conventions_Version>
-        <RSG_DependencyInjection_Version>0.5.0</RSG_DependencyInjection_Version>
+        <RSG_Configuration_Version>0.3.3</RSG_Configuration_Version>
+        <RSG_Conventions_Version>0.7.2</RSG_Conventions_Version>
+        <RSG_DependencyInjection_Version>0.5.3</RSG_DependencyInjection_Version>
         <RSG_Extensions_Version>0.3.0</RSG_Extensions_Version>
         <RSG_Hosting_Version>0.2.3</RSG_Hosting_Version>
         <Microsoft_NET_Sdk_Functions_Version>1.0.6</Microsoft_NET_Sdk_Functions_Version>
