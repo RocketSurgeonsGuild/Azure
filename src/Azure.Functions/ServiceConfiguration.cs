@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -18,7 +19,18 @@ using Rocket.Surgery.Hosting;
 
 namespace Rocket.Surgery.Azure.Functions
 {
-    public class ServiceConfiguration : IExtensionConfigProvider
+    public interface IFunctionConfiguration
+    {
+        IServiceProvider BuildServiceProvider(
+            ExtensionConfigContext context, 
+            IEnumerable<Assembly> assemblies, 
+            IServiceCollection services, 
+            ILogger logger, 
+            IHostingEnvironment environment
+        );
+    }
+
+    public class ServiceConfiguration : IExtensionConfigProvider, IFunctionConfiguration
     {
         public void Initialize(ExtensionConfigContext context)
         {
@@ -29,19 +41,68 @@ namespace Rocket.Surgery.Azure.Functions
                 null
             );
 
-            //var logger = context.Config.LoggerFactory.CreateLogger("Worker.Container");
             var logger = new TraceWriterLogger(context.Trace);
 
             try
             {
-                var assemblyCandidateFinder = new AppDomainAssemblyCandidateFinder(logger: logger);
-                var assemblyProvider = new AppDomainAssemblyProvider();
+                var assemblies = context.Config.TypeLocator.GetTypes()
+                    .Where(x => !x.FullName.StartsWith("Microsoft."))
+                    .Where(x => !x.FullName.StartsWith("System."))
+                    .Where(x => !x.FullName.StartsWith("Azure."))
+                    .Select(x => x.GetTypeInfo().Assembly)
+                    .Distinct()
+                    .Except(new[] { typeof(ServiceConfiguration).Assembly })
+                    .ToArray();
+
+                var containerInvoker = assemblies
+                    .SelectMany(x => x.GetTypes())
+                    .Where(x => x.IsClass)
+                    .FirstOrDefault(typeof(IFunctionConfiguration).IsAssignableFrom) ?? typeof(ServiceConfiguration);
+
+                var services = new ServiceCollection();
+                var invoker = Activator.CreateInstance(containerInvoker) as IFunctionConfiguration;
+                var container = invoker.BuildServiceProvider(context, assemblies, services, logger, env);
+
+                var injectBindingProvider = new ServiceBindingProvider(services, container, logger);
+
+                //context.AddBindingRule<_Attribute>().Bind(injectBindingProvider);
+                //context.AddBindingRule<InjectAttribute>().Bind(injectBindingProvider);
+                //context.AddBindingRule<ServiceAttribute>().Bind(injectBindingProvider);
+                context.Config.RegisterBindingExtension(injectBindingProvider);
+
+                var registry = context.Config.GetService<IExtensionRegistry>();
+                registry.RegisterExtension(typeof(IFunctionInvocationFilter), injectBindingProvider);
+                registry.RegisterExtension(typeof(IFunctionExceptionFilter), injectBindingProvider);
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical(e, "error could not configure service");
+            }
+        }
+
+        public IServiceProvider BuildServiceProvider(
+            ExtensionConfigContext context, 
+            IEnumerable<Assembly> assemblies, 
+            IServiceCollection services, 
+            ILogger logger, 
+            IHostingEnvironment environment
+        )
+        {
+            try
+            {
+                var dependencyContext = assemblies
+                    .Aggregate<Assembly, DependencyContext>(
+                        null, (ctx, assembly) => ctx == null ? DependencyContext.Load(assembly) : ctx.Merge(DependencyContext.Load(assembly))
+                    );
+
+                var assemblyCandidateFinder = new DependencyContextAssemblyCandidateFinder(dependencyContext, logger);
+                var assemblyProvider = new DependencyContextAssemblyProvider(dependencyContext, logger);
                 var scanner = new AggregateConventionScanner(assemblyCandidateFinder);
 
                 var extBuilder = new Microsoft.Extensions.Configuration.ConfigurationBuilder();
                 var configurationBuilder = new ConfigurationBuilder(
                     scanner,
-                    env,
+                    environment,
                     new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build(),
                     extBuilder,
                     logger
@@ -50,7 +111,6 @@ namespace Rocket.Surgery.Azure.Functions
                 configurationBuilder.Build();
                 var configuration = extBuilder.Build();
 
-                var services = new ServiceCollection();
                 services
                     .AddLogging()
                     .Replace(ServiceDescriptor.Singleton(context.Config.LoggerFactory));
@@ -61,25 +121,16 @@ namespace Rocket.Surgery.Azure.Functions
                     assemblyCandidateFinder,
                     services,
                     configuration,
-                    env,
+                    environment,
                     logger
                 );
 
-                var container = builder.Build();
-
-                var injectBindingProvider = new ServiceBindingProvider(services, container, logger);
-
-                context.AddBindingRule<_Attribute>().Bind(injectBindingProvider);
-                context.AddBindingRule<InjectAttribute>().Bind(injectBindingProvider);
-                context.AddBindingRule<ServiceAttribute>().Bind(injectBindingProvider);
-
-                var registry = context.Config.GetService<IExtensionRegistry>();
-                registry.RegisterExtension(typeof(IFunctionInvocationFilter), injectBindingProvider);
-                registry.RegisterExtension(typeof(IFunctionExceptionFilter), injectBindingProvider);
+                return builder.Build();
             }
             catch (Exception e)
             {
                 logger.LogCritical(e, "error could not configure service");
+                throw;
             }
         }
     }

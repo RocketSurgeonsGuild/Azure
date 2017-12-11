@@ -8,5 +8,5 @@ using Microsoft.Azure.WebJobs.Host;
 namespace Rocket.Surgery.Azure.Functions
 {
     [Binding, AttributeUsage(AttributeTargets.Parameter)]
-    public class _Attribute : Attribute { }
+    public sealed class _Attribute : Attribute { }
 }

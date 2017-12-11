@@ -57,12 +57,14 @@ namespace Rocket.Surgery.Azure.Functions
                 case LogLevel.None:
                     return TraceLevel.Off;
                 case LogLevel.Error:
+                case LogLevel.Critical:
                     return TraceLevel.Error;
                 case LogLevel.Warning:
                     return TraceLevel.Warning;
                 case LogLevel.Information:
                     return TraceLevel.Info;
                 case LogLevel.Debug:
+                case LogLevel.Trace:
                     return TraceLevel.Verbose;
                 default:
                     throw new InvalidOperationException($"'{logLevel}' is not a valid level.");

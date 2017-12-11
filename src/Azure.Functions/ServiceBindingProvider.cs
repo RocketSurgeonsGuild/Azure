@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Azure.WebJobs.Description;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,21 +32,35 @@ namespace Rocket.Surgery.Azure.Functions
 
         public Task<IBinding> TryCreateAsync(BindingProviderContext context)
         {
+            var isServiceAttribute = context.Parameter.GetCustomAttributes()
+                .Any(x => (x is _Attribute) || (x is InjectAttribute) || (x is ServiceAttribute));
+            if (isServiceAttribute)
+            {
+                return Task.FromResult(CreateBinding(context));
+            }
+
+            if (context.Parameter.GetCustomAttributes()
+                .Any(z => z.GetType().GetCustomAttributes().Any(x => x is BindingAttribute)))
+            {
+                return Task.FromResult<IBinding>(null);
+            }
+
             if (_collection.All(z => z.ServiceType != context.Parameter.ParameterType)
                 && context.Parameter.ParameterType != typeof(ILogger)
                 )
             {
                 Console.Error.WriteLine($"Unable to bind service {context.Parameter.ParameterType.FullName}");
                 _logger.LogInformation("Unable to bind service {Type}", context.Parameter.ParameterType.FullName);
-                return null;
+                return Task.FromResult<IBinding>(null);
             }
 
-            IBinding binding = new ServiceBinding(
-                bindingContext => GetScope(bindingContext.FunctionInstanceId),
-                context.Parameter.ParameterType
-            );
-            return Task.FromResult(binding);
+            return Task.FromResult(CreateBinding(context));
         }
+
+        private IBinding CreateBinding(BindingProviderContext context) =>
+            new ServiceBinding(CreateScope,context.Parameter.ParameterType);
+
+        private IServiceScope CreateScope(BindingContext bindingContext) => GetScope(bindingContext.FunctionInstanceId);
 
         public IServiceScope GetScope(BindingContext context)
         {

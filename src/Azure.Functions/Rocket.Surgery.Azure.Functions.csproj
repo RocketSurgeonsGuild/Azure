@@ -18,4 +18,8 @@
     <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3' or '$(TargetFramework)'=='net451'">
         <PackageReference Include="NETStandard.Library" Version="1.6.1" NoWarn="true" PrivateAssets="All" />
     </ItemGroup>
+    <ItemGroup>
+        <None Include="build/*.*" Pack="true" PackagePath="build" />
+        <None Include="buildMultiTargeting/*.*" Pack="true" PackagePath="buildMultiTargeting" />
+    </ItemGroup>
 </Project>
