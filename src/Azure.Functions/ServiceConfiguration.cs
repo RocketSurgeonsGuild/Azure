@@ -22,10 +22,10 @@ namespace Rocket.Surgery.Azure.Functions
     public interface IFunctionConfiguration
     {
         IServiceProvider BuildServiceProvider(
-            ExtensionConfigContext context, 
-            IEnumerable<Assembly> assemblies, 
-            IServiceCollection services, 
-            ILogger logger, 
+            ExtensionConfigContext context,
+            IEnumerable<Assembly> assemblies,
+            IServiceCollection services,
+            ILogger logger,
             IHostingEnvironment environment
         );
     }
@@ -81,10 +81,10 @@ namespace Rocket.Surgery.Azure.Functions
         }
 
         public IServiceProvider BuildServiceProvider(
-            ExtensionConfigContext context, 
-            IEnumerable<Assembly> assemblies, 
-            IServiceCollection services, 
-            ILogger logger, 
+            ExtensionConfigContext context,
+            IEnumerable<Assembly> assemblies,
+            IServiceCollection services,
+            ILogger logger,
             IHostingEnvironment environment
         )
         {
