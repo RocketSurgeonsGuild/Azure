@@ -6,6 +6,7 @@ using System.Reflection;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Azure.WebJobs.Host.Config;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyModel;
@@ -13,9 +14,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Rocket.Surgery.Conventions.Reflection;
 using Rocket.Surgery.Conventions.Scanners;
-using Rocket.Surgery.Extensions.Configuration;
 using Rocket.Surgery.Extensions.DependencyInjection;
 using Rocket.Surgery.Hosting;
+using ConfigurationBuilder = Rocket.Surgery.Extensions.Configuration.ConfigurationBuilder;
 
 namespace Rocket.Surgery.Azure.Functions
 {
@@ -34,13 +35,6 @@ namespace Rocket.Surgery.Azure.Functions
     {
         public void Initialize(ExtensionConfigContext context)
         {
-            var env = new HostingEnvironment(
-                Environment.GetEnvironmentVariable("WEBSITE_SLOT_NAME") ?? string.Empty,
-                Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME") ?? string.Empty,
-                null,
-                null
-            );
-
             var logger = new TraceWriterLogger(context.Trace);
 
             try
@@ -54,6 +48,29 @@ namespace Rocket.Surgery.Azure.Functions
                     .Except(new[] { typeof(ServiceConfiguration).Assembly })
                     .ToArray();
 
+                var environmentNames = new[]
+                {
+                    Environment.GetEnvironmentVariable("WEBSITE_SLOT_NAME"),
+                    Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+                    "Unknown"
+                };
+
+                var applicationNames = new[]
+                {
+                    Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"),
+                    assemblies
+                        .SelectMany(x => x.GetCustomAttributes<AssemblyProductAttribute>())
+                        .FirstOrDefault(x => !string.IsNullOrEmpty(x.Product))?.Product,
+                    "Functions"
+                };
+
+                var env = new HostingEnvironment(
+                    environmentNames.First(x => !string.IsNullOrEmpty(x)),
+                    applicationNames.First(x => !string.IsNullOrEmpty(x)),
+                    null,
+                    null
+                );
+
                 var containerInvoker = assemblies
                     .SelectMany(x => x.GetTypes())
                     .Where(x => x.IsClass)
@@ -64,10 +81,6 @@ namespace Rocket.Surgery.Azure.Functions
                 var container = invoker.BuildServiceProvider(context, assemblies, services, logger, env);
 
                 var injectBindingProvider = new ServiceBindingProvider(services, container, logger);
-
-                //context.AddBindingRule<_Attribute>().Bind(injectBindingProvider);
-                //context.AddBindingRule<InjectAttribute>().Bind(injectBindingProvider);
-                //context.AddBindingRule<ServiceAttribute>().Bind(injectBindingProvider);
                 context.Config.RegisterBindingExtension(injectBindingProvider);
 
                 var registry = context.Config.GetService<IExtensionRegistry>();
@@ -109,7 +122,9 @@ namespace Rocket.Surgery.Azure.Functions
                 );
 
                 configurationBuilder.Build();
-                var configuration = extBuilder.Build();
+                var configuration = extBuilder
+                    .AddEnvironmentVariables()
+                    .Build();
 
                 services
                     .AddLogging()
