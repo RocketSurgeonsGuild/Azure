@@ -67,7 +67,7 @@ namespace Rocket.Surgery.Azure.Storage
             _partitionKey = partitionKey ?? throw new ArgumentNullException(nameof(partitionKey));
             _rowKey = rowKey ?? throw new ArgumentNullException(nameof(rowKey));
             _jsonSerializer = jsonSerializer ?? throw new ArgumentNullException(nameof(jsonSerializer));
-            _binder = new JsonBinder(_separator);
+            _binder = new JsonBinder(_separator, _jsonSerializer);
         }
 
         /// <summary>
@@ -83,22 +83,25 @@ namespace Rocket.Surgery.Azure.Storage
         void ITableEntity.ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
         {
             var getter = getPropertyGetter(GetType());
-            var jobject = _binder.Parse(properties.Select(
-                x =>
+            _binder.Populate(this, properties
+                .Select(x =>
                 {
                     var value = x.Value.PropertyAsObject?.ToString();
-                    if (x.Value.PropertyType == EdmType.DateTime)
+                    if (x.Value.PropertyType != EdmType.DateTime) return new KeyValuePair<string, string>(x.Key, value);
+
+                    if (x.Value.DateTimeOffsetValue.HasValue)
                     {
-                        if (x.Value.DateTimeOffsetValue.HasValue)
+                        if (TryGetPropertyType(getter, GetType(), x.Key, out var propertyType))
                         {
-                            var propertyType = getter.GetPropertyType(this.GetType(), x.Key);
                             if (propertyType == typeof(Instant))
                             {
-                                value = InstantPattern.ExtendedIso.Format(Instant.FromDateTimeOffset(x.Value.DateTimeOffsetValue.Value));
+                                value = InstantPattern.ExtendedIso.Format(
+                                    Instant.FromDateTimeOffset(x.Value.DateTimeOffsetValue.Value));
                             }
                             else if (propertyType == typeof(OffsetDateTime))
                             {
-                                value = OffsetDateTimePattern.Rfc3339.Format(OffsetDateTime.FromDateTimeOffset(x.Value.DateTimeOffsetValue.Value));
+                                value = OffsetDateTimePattern.Rfc3339.Format(
+                                    OffsetDateTime.FromDateTimeOffset(x.Value.DateTimeOffsetValue.Value));
                             }
                             else if (propertyType == typeof(ZonedDateTime))
                             {
@@ -107,23 +110,33 @@ namespace Rocket.Surgery.Azure.Storage
                             }
                             else if (propertyType == typeof(LocalDateTime))
                             {
-                                value = LocalDateTimePattern.ExtendedIso.Format(LocalDateTime.FromDateTime(x.Value.DateTimeOffsetValue.Value.DateTime));
+                                value = LocalDateTimePattern.ExtendedIso.Format(
+                                    LocalDateTime.FromDateTime(x.Value.DateTimeOffsetValue.Value.DateTime));
                             }
                             else if (propertyType == typeof(LocalDate))
                             {
-                                value = LocalDatePattern.Iso.Format(LocalDate.FromDateTime(x.Value.DateTimeOffsetValue.Value.DateTime));
+                                value = LocalDatePattern.Iso.Format(
+                                    LocalDate.FromDateTime(x.Value.DateTimeOffsetValue.Value.DateTime));
                             }
                             else
                             {
                                 value = x.Value.DateTimeOffsetValue.Value.ToString("O");
                             }
                         }
-                        if (x.Value.DateTime.HasValue)
+                        else
                         {
-                            var propertyType = getter.GetPropertyType(this.GetType(), x.Key);
+                            value = x.Value.DateTimeOffsetValue.Value.ToString("O");
+                        }
+                    }
+
+                    if (x.Value.DateTime.HasValue)
+                    {
+                        if (TryGetPropertyType(getter, GetType(), x.Key, out var propertyType))
+                        {
                             if (propertyType == typeof(LocalDateTime))
                             {
-                                value = LocalDateTimePattern.ExtendedIso.Format(LocalDateTime.FromDateTime(x.Value.DateTime.Value));
+                                value = LocalDateTimePattern.ExtendedIso.Format(
+                                    LocalDateTime.FromDateTime(x.Value.DateTime.Value));
                             }
                             else if (propertyType == typeof(LocalDate))
                             {
@@ -134,11 +147,27 @@ namespace Rocket.Surgery.Azure.Storage
                                 value = x.Value.DateTime.Value.ToString("O");
                             }
                         }
+                        else
+                        {
+                            value = x.Value.DateTime.Value.ToString("O");
+                        }
                     }
                     return new KeyValuePair<string, string>(x.Key, value);
                 }));
+        }
 
-            _jsonSerializer.Populate(jobject.CreateReader(), this);
+        private static bool TryGetPropertyType(PropertyGetter getter, Type baseType, string key, out Type type)
+        {
+            try
+            {
+                type = getter.GetPropertyType(baseType, key);
+                return true;
+            }
+            catch
+            {
+                type = null;
+                return false;
+            }
         }
 
         private static PropertyGetter getPropertyGetter(Type type)
@@ -155,60 +184,58 @@ namespace Rocket.Surgery.Azure.Storage
         {
             var getter = getPropertyGetter(GetType());
             var results = new Dictionary<string, EntityProperty>();
-            foreach (var item in JObject.FromObject(this, _jsonSerializer)
-                .Descendants()
-                .Where(p => !p.Any())
-                .OfType<JValue>())
+            foreach (var (key, item) in _binder.GetValues(this))
             {
-                var key = _binder.GetKey(item);
                 if (key == _rowKey || key == _partitionKey) continue;
                 if (key == nameof(PartitionKey) || key == nameof(RowKey)) continue;
                 EntityProperty entityProperty = null;
 
-                    switch (item.Type)
-                    {
-                        case JTokenType.Null:
-                            entityProperty = new EntityProperty((string)null);
-                            break;
-                        case JTokenType.Boolean:
-                            entityProperty = EntityProperty.GeneratePropertyForBool(item.Value<bool>());
-                            break;
-                        case JTokenType.Date:
-                            entityProperty = EntityProperty.GeneratePropertyForDateTimeOffset(item.Value<DateTimeOffset>());
-                            break;
-                        case JTokenType.Guid:
-                            entityProperty = EntityProperty.GeneratePropertyForGuid(item.Value<Guid>());
-                            break;
-                        case JTokenType.Integer:
-                            switch (item.Value)
-                            {
-                                case long l:
-                                    entityProperty = EntityProperty.GeneratePropertyForLong(l);
-                                    break;
-                                case int i:
-                                    entityProperty = EntityProperty.GeneratePropertyForInt(i);
-                                    break;
-                                case short s:
-                                    entityProperty = EntityProperty.GeneratePropertyForInt(s);
-                                    break;
-                            }
-                            break;
-                        case JTokenType.Float:
-                            switch (item.Value)
-                            {
-                                case decimal _:
-                                    entityProperty = EntityProperty.GeneratePropertyForString(item.Value<string>());
-                                    break;
-                                case double d:
-                                    entityProperty = EntityProperty.GeneratePropertyForDouble(d);
-                                    break;
-                                case float f:
-                                    entityProperty = EntityProperty.GeneratePropertyForDouble(f);
-                                    break;
-                            }
-                            break;
+                switch (item.Type)
+                {
+                    case JTokenType.Null:
+                        entityProperty = new EntityProperty((string)null);
+                        break;
+                    case JTokenType.Boolean:
+                        entityProperty = EntityProperty.GeneratePropertyForBool(item.Value<bool>());
+                        break;
+                    case JTokenType.Date:
+                        entityProperty = EntityProperty.GeneratePropertyForDateTimeOffset(item.Value<DateTimeOffset>());
+                        break;
+                    case JTokenType.Guid:
+                        entityProperty = EntityProperty.GeneratePropertyForGuid(item.Value<Guid>());
+                        break;
+                    case JTokenType.Integer:
+                        switch (item.Value)
+                        {
+                            case short s:
+                                entityProperty = EntityProperty.GeneratePropertyForInt(s);
+                                break;
+                            case int i:
+                                entityProperty = EntityProperty.GeneratePropertyForInt(i);
+                                break;
+                            case long l:
+                                entityProperty = EntityProperty.GeneratePropertyForLong(l);
+                                break;
+                        }
+                        break;
+                    case JTokenType.Float:
+                        switch (item.Value)
+                        {
+                            case float f:
+                                entityProperty = EntityProperty.GeneratePropertyForDouble(f);
+                                break;
+                            case double d:
+                                entityProperty = EntityProperty.GeneratePropertyForDouble(d);
+                                break;
+                            case decimal _:
+                                entityProperty = EntityProperty.GeneratePropertyForString(item.Value<string>());
+                                break;
+                        }
+                        break;
 
-                        default:
+                    default:
+                        if (TryGetPropertyType(getter, GetType(), key, out var _))
+                        {
                             var context = getter.Get(this, key);
 
                             switch (context)
@@ -235,8 +262,13 @@ namespace Rocket.Surgery.Azure.Storage
                                     entityProperty = EntityProperty.GeneratePropertyForString(item.Value<string>());
                                     break;
                             }
-                            break;
-                    }
+                        }
+                        else
+                        {
+                            entityProperty = EntityProperty.GeneratePropertyForString(item.Value<string>());
+                        }
+                        break;
+                }
 
                 results.Add(key, entityProperty);
             }
