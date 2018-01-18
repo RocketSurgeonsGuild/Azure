@@ -9,7 +9,7 @@
         <RSG_Build_Version>1.2.3</RSG_Build_Version>
         <RSG_Builders_Version>1.0.0</RSG_Builders_Version>
         <RSG_Configuration_Version>0.3.4</RSG_Configuration_Version>
-        <RSG_DependencyInjection_Version>0.5.5</RSG_DependencyInjection_Version>
+        <RSG_DependencyInjection_Version>0.5.6</RSG_DependencyInjection_Version>
         <RSG_Extensions_Version>0.4.0</RSG_Extensions_Version>
         <RSG_Hosting_Version>0.2.5</RSG_Hosting_Version>
         <Microsoft_NET_Sdk_Functions_Version>1.0.7</Microsoft_NET_Sdk_Functions_Version>
@@ -28,7 +28,7 @@
         <FluentAssertions_Version>5.0.0-rc0002</FluentAssertions_Version>
         <FakeItEasy_Version>4.3.0</FakeItEasy_Version>
         <Autofac_FakeItEasy_Version>5.0.0</Autofac_FakeItEasy_Version>
-        <RSG_Testing_Version>0.1.2</RSG_Testing_Version>
+        <RSG_Testing_Version>0.2.0</RSG_Testing_Version>
     </PropertyGroup>
     <!-- Overrides -->
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3' or '$(TargetFramework)'=='net451'">
