@@ -6,29 +6,30 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup>
-        <RSG_Build_Version>1.2.3</RSG_Build_Version>
-        <RSG_Builders_Version>1.0.0</RSG_Builders_Version>
-        <RSG_Configuration_Version>0.3.7</RSG_Configuration_Version>
-        <RSG_DependencyInjection_Version>0.5.8</RSG_DependencyInjection_Version>
-        <RSG_Extensions_Version>0.5.4</RSG_Extensions_Version>
-        <RSG_Hosting_Version>0.2.5</RSG_Hosting_Version>
+        <RSG_Build_Version>1.2.5</RSG_Build_Version>
+        <RSG_Builders_Version>1.0.1</RSG_Builders_Version>
+        <RSG_Configuration_Version>0.3.8</RSG_Configuration_Version>
+        <RSG_DependencyInjection_Version>0.5.10</RSG_DependencyInjection_Version>
+        <RSG_Extensions_Version>0.5.9</RSG_Extensions_Version>
+        <RSG_Hosting_Version>0.2.6</RSG_Hosting_Version>
         <Microsoft_NET_Sdk_Functions_Version>1.0.7</Microsoft_NET_Sdk_Functions_Version>
         <Autofac_Extras_CommonServiceLocator_Version>5.0.0</Autofac_Extras_CommonServiceLocator_Version>
         <Autofac_Version>4.6.2</Autofac_Version>
-        <NodaTime_Version>2.2.3</NodaTime_Version>
+        <NodaTime_Version>2.2.4</NodaTime_Version>
         <NodaTime_Serialization_Version>2.0.0</NodaTime_Serialization_Version>
-        <Newtonsoft_Json_Version>10.0.3</Newtonsoft_Json_Version>
-        <WindowsAzure_Storage_Version>8.6.0</WindowsAzure_Storage_Version>
+        <Newtonsoft_Json_Version>11.0.1</Newtonsoft_Json_Version>
+        <WindowsAzure_Storage_Version>9.1.0</WindowsAzure_Storage_Version>
         <Microsoft_Azure_WebJobs_Version>3.0.0-beta4</Microsoft_Azure_WebJobs_Version>
         <Microsoft_Extensions_Logging_Version>2.0.0</Microsoft_Extensions_Logging_Version>
         <Microsoft_Extensions_Options_Version>2.0.0</Microsoft_Extensions_Options_Version>
-        <SourceLink_Version>2.7.4</SourceLink_Version>
-        <Microsoft_NET_Test_Sdk_Version>15.5.0</Microsoft_NET_Test_Sdk_Version>
+        <SourceLink_Version>2.8.0</SourceLink_Version>
+        <Microsoft_NET_Test_Sdk_Version>15.6.1</Microsoft_NET_Test_Sdk_Version>
         <xunit_Version>2.3.1</xunit_Version>
-        <FluentAssertions_Version>5.0.0-rc0002</FluentAssertions_Version>
-        <FakeItEasy_Version>4.3.0</FakeItEasy_Version>
+        <FluentAssertions_Version>5.2.0</FluentAssertions_Version>
+        <FakeItEasy_Version>4.5.1</FakeItEasy_Version>
         <Autofac_FakeItEasy_Version>5.0.0</Autofac_FakeItEasy_Version>
-        <RSG_Testing_Version>0.2.0</RSG_Testing_Version>
+        <Bogus_Version>22.0.5</Bogus_Version>
+        <RSG_Testing_Version>0.3.0</RSG_Testing_Version>
     </PropertyGroup>
     <!-- Overrides -->
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3' or '$(TargetFramework)'=='net451'">
