@@ -58,7 +58,7 @@ namespace Rocket.Surgery.Azure.Functions
         }
 
         private IBinding CreateBinding(BindingProviderContext context) =>
-            new ServiceBinding(CreateScope,context.Parameter.ParameterType);
+            new ServiceBinding(CreateScope, context.Parameter.ParameterType);
 
         private IServiceScope CreateScope(BindingContext bindingContext) => GetScope(bindingContext.FunctionInstanceId);
 
@@ -85,23 +85,37 @@ namespace Rocket.Surgery.Azure.Functions
             }
         }
 
-        Task IFunctionInvocationFilter.OnExecutingAsync(FunctionExecutingContext context, CancellationToken cancellationToken)
+        async Task IFunctionInvocationFilter.OnExecutingAsync(FunctionExecutingContext context, CancellationToken cancellationToken)
         {
-            GetScope(context.FunctionInstanceId);
+            var scope = GetScope(context.FunctionInstanceId);
             cancellationToken.Register(() => DisposeScope(context.FunctionInstanceId));
-            return Task.CompletedTask;
+
+            foreach (var filter in scope.ServiceProvider.GetServices<IFunctionInvocationFilter>())
+            {
+                await filter.OnExecutingAsync(context, cancellationToken);
+            }
         }
 
-        Task IFunctionInvocationFilter.OnExecutedAsync(FunctionExecutedContext context, CancellationToken cancellationToken)
+        async Task IFunctionInvocationFilter.OnExecutedAsync(FunctionExecutedContext context, CancellationToken cancellationToken)
         {
+            var scope = GetScope(context.FunctionInstanceId);
+            foreach (var filter in scope.ServiceProvider.GetServices<IFunctionInvocationFilter>())
+            {
+                await filter.OnExecutedAsync(context, cancellationToken);
+            }
+
             DisposeScope(context.FunctionInstanceId);
-            return Task.CompletedTask;
         }
 
-        Task IFunctionExceptionFilter.OnExceptionAsync(FunctionExceptionContext context, CancellationToken cancellationToken)
+        async Task IFunctionExceptionFilter.OnExceptionAsync(FunctionExceptionContext context, CancellationToken cancellationToken)
         {
+            var scope = GetScope(context.FunctionInstanceId);
+            foreach (var filter in scope.ServiceProvider.GetServices<IFunctionExceptionFilter>())
+            {
+                await filter.OnExceptionAsync(context, cancellationToken);
+            }
+
             DisposeScope(context.FunctionInstanceId);
-            return Task.CompletedTask;
         }
     }
 }
