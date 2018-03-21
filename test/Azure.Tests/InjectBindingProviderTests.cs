@@ -22,8 +22,13 @@ namespace Rocket.Surgery.Azure.Tests
         public InjectBindingProviderTests(ITestOutputHelper outputHelper) : base(outputHelper)
         {
             var container = AutoFake.Resolve<IServiceProvider>();
+
             A.CallTo(() => container.GetService(A<Type>._))
                 .ReturnsLazily(call => AutoFake.Container.Resolve(call.Arguments.First() as Type));
+            A.CallTo(() => container.GetService(typeof(IEnumerable<IFunctionInvocationFilter>)))
+                .ReturnsLazily(call => Enumerable.Empty<IFunctionInvocationFilter>());
+            A.CallTo(() => container.GetService(typeof(IEnumerable<IFunctionExceptionFilter>)))
+                .ReturnsLazily(call => Enumerable.Empty<IFunctionExceptionFilter>());
         }
 
         [Fact]

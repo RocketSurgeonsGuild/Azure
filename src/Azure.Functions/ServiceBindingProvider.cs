@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -90,19 +91,17 @@ namespace Rocket.Surgery.Azure.Functions
             var scope = GetScope(context.FunctionInstanceId);
             cancellationToken.Register(() => DisposeScope(context.FunctionInstanceId));
 
-            foreach (var filter in scope.ServiceProvider.GetServices<IFunctionInvocationFilter>())
-            {
-                await filter.OnExecutingAsync(context, cancellationToken);
-            }
+            if (scope.ServiceProvider.GetService(typeof(IEnumerable<IFunctionInvocationFilter>)) is IEnumerable<IFunctionInvocationFilter> items)
+                foreach (var filter in items)
+                    await filter.OnExecutingAsync(context, cancellationToken);
         }
 
         async Task IFunctionInvocationFilter.OnExecutedAsync(FunctionExecutedContext context, CancellationToken cancellationToken)
         {
             var scope = GetScope(context.FunctionInstanceId);
-            foreach (var filter in scope.ServiceProvider.GetServices<IFunctionInvocationFilter>())
-            {
-                await filter.OnExecutedAsync(context, cancellationToken);
-            }
+            if (scope.ServiceProvider.GetService(typeof(IEnumerable<IFunctionInvocationFilter>)) is IEnumerable<IFunctionInvocationFilter> items)
+                foreach (var filter in items)
+                    await filter.OnExecutedAsync(context, cancellationToken);
 
             DisposeScope(context.FunctionInstanceId);
         }
@@ -110,10 +109,9 @@ namespace Rocket.Surgery.Azure.Functions
         async Task IFunctionExceptionFilter.OnExceptionAsync(FunctionExceptionContext context, CancellationToken cancellationToken)
         {
             var scope = GetScope(context.FunctionInstanceId);
-            foreach (var filter in scope.ServiceProvider.GetServices<IFunctionExceptionFilter>())
-            {
-                await filter.OnExceptionAsync(context, cancellationToken);
-            }
+            if (scope.ServiceProvider.GetService(typeof(IEnumerable<IFunctionExceptionFilter>)) is IEnumerable<IFunctionExceptionFilter> items)
+                foreach (var filter in items)
+                    await filter.OnExceptionAsync(context, cancellationToken);
 
             DisposeScope(context.FunctionInstanceId);
         }
