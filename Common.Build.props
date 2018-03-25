@@ -10,7 +10,7 @@
         <RSG_Builders_Version>1.0.1</RSG_Builders_Version>
         <RSG_Configuration_Version>0.4.0</RSG_Configuration_Version>
         <RSG_DependencyInjection_Version>0.6.0</RSG_DependencyInjection_Version>
-        <RSG_Extensions_Version>0.5.9</RSG_Extensions_Version>
+        <RSG_Extensions_Version>0.6.0</RSG_Extensions_Version>
         <RSG_Hosting_Version>0.2.6</RSG_Hosting_Version>
         <Microsoft_NET_Sdk_Functions_Version>1.0.7</Microsoft_NET_Sdk_Functions_Version>
         <Autofac_Extras_CommonServiceLocator_Version>5.0.0</Autofac_Extras_CommonServiceLocator_Version>
