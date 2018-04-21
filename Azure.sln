@@ -44,8 +44,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocket.Surgery.Azure.Storage", "src\Azure.Storage\Rocket.Surgery.Azure.Storage.csproj", "{36A1BA5B-E6AF-4170-8AB3-57425442D146}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B7982911-582B-44BC-8F2B-1E442206812E}"
+	ProjectSection(SolutionItems) = preProject
+		samples\Directory.Build.props = samples\Directory.Build.props
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionApp1", "samples\FunctionApp1\FunctionApp1.csproj", "{E586216E-3544-4823-B069-9CE1114AB118}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionApp1", "samples\FunctionApp1\FunctionApp1.csproj", "{E586216E-3544-4823-B069-9CE1114AB118}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
