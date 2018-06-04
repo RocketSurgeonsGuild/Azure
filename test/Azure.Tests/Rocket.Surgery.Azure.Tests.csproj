@@ -1,14 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+        <TargetFrameworks>netcoreapp2.0;netcoreapp2.1;net461</TargetFrameworks>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Azure.Functions\Rocket.Surgery.Azure.Functions.csproj" />
         <ProjectReference Include="..\..\src\Azure.Storage\Rocket.Surgery.Azure.Storage.csproj" />
-        <PackageReference Include="Rocket.Surgery.Hosting" Version="$(RSG_Hosting_Version)" />
         <PackageReference Include="Newtonsoft.Json" Version="$(Newtonsoft_Json_Version)" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.0' or '$(TargetFramework)'=='net461'">
-        <PackageReference Include="NETStandard.Library" Version="2.0.1" NoWarn="true" PrivateAssets="All" />
     </ItemGroup>
 </Project>

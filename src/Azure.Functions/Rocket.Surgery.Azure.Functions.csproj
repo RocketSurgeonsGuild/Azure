@@ -3,21 +3,13 @@
         <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="Microsoft.Azure.WebJobs" Version="$(Microsoft_Azure_WebJobs_Version)" />
-      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions" Version="$(Microsoft_Azure_WebJobs_Version)" />
-      <!--        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Http" Version="$(Microsoft_Azure_WebJobs_Version)" />-->
-        <!--<PackageReference Include="Microsoft.NET.Sdk.Functions" Version="$(Microsoft_NET_Sdk_Functions_Version)" NoWarn="True" />-->
+		<PackageReference Include="Microsoft.Azure.WebJobs" Version="$(Microsoft_Azure_WebJobs_Version)" />
+		<PackageReference Include="Microsoft.Azure.WebJobs.Extensions" Version="$(Microsoft_Azure_WebJobs_Version)" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(Microsoft_Extensions_Hosting_Version)" />
         <PackageReference Include="Rocket.Surgery.Extensions" Version="$(RSG_Extensions_Version)" />
         <PackageReference Include="Rocket.Surgery.Extensions.DependencyInjection" Version="$(RSG_DependencyInjection_Version)" />
         <PackageReference Include="Rocket.Surgery.Extensions.Configuration" Version="$(RSG_Configuration_Version)" />
-        <PackageReference Include="Rocket.Surgery.Hosting" Version="$(RSG_Hosting_Version)" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="$(Microsoft_Extensions_Logging_Version)" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0' or '$(TargetFramework)'=='net461'">
-        <PackageReference Include="NETStandard.Library" Version="2.0.0" NoWarn="true" PrivateAssets="All" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3' or '$(TargetFramework)'=='net451'">
-        <PackageReference Include="NETStandard.Library" Version="1.6.1" NoWarn="true" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
         <None Include="build/*.*" Pack="true" PackagePath="build" />

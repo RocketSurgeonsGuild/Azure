@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using Rocket.Surgery.Conventions.Reflection;
 using Rocket.Surgery.Conventions.Scanners;
 using Rocket.Surgery.Extensions.Configuration;
 using Rocket.Surgery.Extensions.DependencyInjection;
-using Rocket.Surgery.Hosting;
 using Rocket.Surgery.Reflection.Extensions;
 using EnvironmentVariablesExtensions = Microsoft.Extensions.Configuration.EnvironmentVariablesExtensions;
 using ExecutionContext = Microsoft.Azure.WebJobs.ExecutionContext;
@@ -39,12 +39,12 @@ namespace Rocket.Surgery.Azure.Functions
                     "Functions"
                 };
 
-                var envionment = new HostingEnvironment(
-                    environmentNames.First(x => !string.IsNullOrEmpty(x)),
-                    applicationNames.First(x => !string.IsNullOrEmpty(x)),
-                    executionContext.FunctionAppDirectory,
-                    executionContext.FunctionDirectory
-                );
+                var envionment = new HostingEnvironment {
+                    EnvironmentName = environmentNames.First(x => !string.IsNullOrEmpty(x)),
+                    ApplicationName = applicationNames.First(x => !string.IsNullOrEmpty(x)),
+                    ContentRootPath = executionContext.FunctionAppDirectory,
+                    ContentRootFileProvider = null
+                };
 
                 var services = new ServiceCollection();
 
