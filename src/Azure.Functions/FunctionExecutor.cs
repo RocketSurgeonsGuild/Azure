@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,12 +55,15 @@ namespace Rocket.Surgery.Azure.Functions
                 var scanner = new AggregateConventionScanner(assemblyCandidateFinder);
 
                 var extBuilder = new Microsoft.Extensions.Configuration.ConfigurationBuilder();
+                var properties = new Dictionary<object, object>();
+                var diagnosticSource = new DiagnosticListener("Rocket.Surgery.Azure");
                 var configurationBuilder = new ConfigurationBuilder(
                     scanner,
                     envionment,
                     new Microsoft.Extensions.Configuration.ConfigurationBuilder().Build(),
                     extBuilder,
-                    logger
+                    diagnosticSource,
+                    properties
                 );
 
                 configurationBuilder.Build();
@@ -74,7 +79,8 @@ namespace Rocket.Surgery.Azure.Functions
                     services,
                     configuration,
                     envionment,
-                    logger
+                    diagnosticSource,
+                    properties
                 );
 
                 return _container = builder.Build();

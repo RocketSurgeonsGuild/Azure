@@ -6,10 +6,10 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup>
-        <RSG_Build_Version>2.0.0</RSG_Build_Version>
-        <RSG_Builders_Version>2.0.1</RSG_Builders_Version>
-        <RSG_Configuration_Version>0.5.0</RSG_Configuration_Version>
-        <RSG_DependencyInjection_Version>0.7.0</RSG_DependencyInjection_Version>
+        <RSG_Build_Version>2.1.0</RSG_Build_Version>
+        <RSG_Builders_Version>3.0.0</RSG_Builders_Version>
+        <RSG_Configuration_Version>0.8.0</RSG_Configuration_Version>
+        <RSG_DependencyInjection_Version>0.11.0</RSG_DependencyInjection_Version>
         <RSG_Extensions_Version>0.8.2</RSG_Extensions_Version>
         <Microsoft_NET_Sdk_Functions_Version>1.0.7</Microsoft_NET_Sdk_Functions_Version>
         <Autofac_Extras_CommonServiceLocator_Version>5.0.0</Autofac_Extras_CommonServiceLocator_Version>
@@ -29,7 +29,7 @@
         <FakeItEasy_Version>4.6.0</FakeItEasy_Version>
         <Autofac_FakeItEasy_Version>5.0.0</Autofac_FakeItEasy_Version>
         <Bogus_Version>22.1.2</Bogus_Version>
-        <RSG_Testing_Version>0.5.0</RSG_Testing_Version>
+        <RSG_Testing_Version>0.7.1</RSG_Testing_Version>
         <XunitXml_TestLogger_Version>2.0.0</XunitXml_TestLogger_Version>
     </PropertyGroup>
 </Project>
