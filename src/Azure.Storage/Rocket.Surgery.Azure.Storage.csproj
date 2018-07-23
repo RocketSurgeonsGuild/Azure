@@ -3,14 +3,14 @@
         <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="WindowsAzure.Storage" Version="$(WindowsAzure_Storage_Version)" />
-        <PackageReference Include="Rocket.Surgery.Extensions" Version="$(RSG_Extensions_Version)" />
-        <PackageReference Include="Rocket.Surgery.Linq.Extensions" Version="$(RSG_Extensions_Version)" />
-        <PackageReference Include="Rocket.Surgery.Reactive.Extensions" Version="$(RSG_Extensions_Version)" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="$(Microsoft_Extensions_Options_Version)" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(Microsoft_Extensions_Logging_Version)" />
-        <PackageReference Include="NodaTime" Version="$(NodaTime_Version)" />
-        <PackageReference Include="NodaTime.Serialization.JsonNet" Version="$(NodaTime_Serialization_Version)" />
-        <PackageReference Include="Newtonsoft.Json" Version="$(Newtonsoft_Json_Version)" />
+        <PackageReference Include="WindowsAzure.Storage" />
+        <PackageReference Include="Rocket.Surgery.Extensions" />
+        <PackageReference Include="Rocket.Surgery.Linq.Extensions" />
+        <PackageReference Include="Rocket.Surgery.Reactive.Extensions" />
+        <PackageReference Include="Microsoft.Extensions.Options" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="NodaTime" />
+        <PackageReference Include="NodaTime.Serialization.JsonNet" />
+        <PackageReference Include="Newtonsoft.Json" />
     </ItemGroup>
 </Project>
