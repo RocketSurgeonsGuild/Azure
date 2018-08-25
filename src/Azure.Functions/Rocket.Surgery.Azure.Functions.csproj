@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     </PropertyGroup>
@@ -7,7 +7,7 @@
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions" />
         <PackageReference Include="Microsoft.Extensions.Hosting" />
         <PackageReference Include="Rocket.Surgery.Extensions" />
-        <PackageReference Include="Rocket.Surgery.Extensions.DependencyInjection" />
+        <PackageReference Include="Rocket.Surgery.Extensions.Autofac" />
         <PackageReference Include="Rocket.Surgery.Extensions.Configuration" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
     </ItemGroup>

@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{2D7895
 		build.ps1 = build.ps1
 		cakefile.cake = cakefile.cake
 		Common.Build.props = Common.Build.props
+		Common.Build.targets = Common.Build.targets
 		..\..\gitlab\Azure\tools\packages.config = ..\..\gitlab\Azure\tools\packages.config
 	EndProjectSection
 EndProject

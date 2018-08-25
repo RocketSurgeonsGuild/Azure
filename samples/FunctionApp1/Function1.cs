@@ -57,22 +57,25 @@ namespace FunctionApp1
     public static class Function1
     {
         [FunctionName(nameof(HealthFunction))]
-        public static Task HealthFunction(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")]HttpRequest req,
-            ILogger logger, ExecutionContext executionContext, CancellationToken token) => FunctionExecutor.RunAsync(typeof(Function1), nameof(Health), logger, executionContext, token);
-
-        public static async Task Health(HelloWorld helloWorld, ILogger logger, CancellationToken token)
+        public static async Task HealthFunction(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")]
+            HttpRequest req,
+            [_] HelloWorld helloWorld,
+            ILogger logger, ExecutionContext executionContext, CancellationToken token)
         {
             await Task.Yield();
             logger.LogInformation($"C# Timer: {helloWorld.Value}");
             logger.LogInformation($"C# Timer trigger function executed at: {helloWorld.Date}");
         }
 
-
         [FunctionName(nameof(Function12))]
-        public static async Task Function12([TimerTrigger("* * * * * *")]TimerInfo myTimer, ILogger logger, ExecutionContext executionContext, CancellationToken token)
+        public static async Task Function12([TimerTrigger("* * * * * */10")]TimerInfo myTimer,
+            [_] HelloWorld helloWorld,
+            ILogger logger, ExecutionContext executionContext, CancellationToken token)
         {
-            await FunctionExecutor.RunAsync(typeof(Function1), nameof(Health), logger, executionContext, token);
+            await Task.Yield();
+            logger.LogInformation($"C# Timer: {helloWorld.Value}");
+            logger.LogInformation($"C# Timer trigger function executed at: {helloWorld.Date}");
         }
     }
 }
