@@ -33,13 +33,6 @@ namespace Rocket.Surgery.Azure.Functions
 
         public Task<IBinding> TryCreateAsync(BindingProviderContext context)
         {
-            var isServiceAttribute = context.Parameter.GetCustomAttributes()
-                .Any(x => (x is _Attribute) || (x is InjectAttribute) || (x is ServiceAttribute));
-            if (isServiceAttribute)
-            {
-                return Task.FromResult(CreateBinding(context));
-            }
-
             if (context.Parameter.GetCustomAttributes()
                 .Any(z => z.GetType().GetCustomAttributes().Any(x => x is BindingAttribute)))
             {
@@ -48,8 +41,6 @@ namespace Rocket.Surgery.Azure.Functions
 
             if (!_container.IsRegistered(context.Parameter.ParameterType))
             {
-                Console.Error.WriteLine($"Unable to bind service {context.Parameter.ParameterType.FullName}");
-                _logger.LogInformation("Unable to bind service {Type}", context.Parameter.ParameterType.FullName);
                 return Task.FromResult<IBinding>(null);
             }
 

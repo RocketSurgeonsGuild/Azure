@@ -1,12 +1,17 @@
 {
-    "tracing": {
-        "consoleLevel": "verbose",
-        "fileLoggingMode": "debugOnly"
+    "version": "2.0",
+    "healthMonitor": {
+        "enabled": true,
+        "healthCheckInterval": "00:00:10",
+        "healthCheckWindow": "00:02:00",
+        "healthCheckThreshold": 6,
+        "counterThreshold": 0.80
     },
-    "logger": {
-        "defaultLevel": "Information",
-        "categoryLevels": {
-            "container": "Trace"
+    "functionTimeout": "00:05:00",
+    "logging": {
+        "logLevel": {
+            "Function.MyFunction": "Trace",
+            "default": "Trace"
         }
     }
 }
