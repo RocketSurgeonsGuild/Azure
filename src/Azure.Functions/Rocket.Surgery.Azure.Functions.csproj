@@ -11,8 +11,4 @@
         <PackageReference Include="Rocket.Surgery.Extensions.Configuration" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
     </ItemGroup>
-    <ItemGroup>
-        <None Include="build/*.*" Pack="true" PackagePath="build" />
-        <None Include="buildMultiTargeting/*.*" Pack="true" PackagePath="buildMultiTargeting" />
-    </ItemGroup>
 </Project>

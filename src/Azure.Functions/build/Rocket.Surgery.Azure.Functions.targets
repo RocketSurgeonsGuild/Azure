@@ -1,7 +1,0 @@
-﻿<Project>
-    <Target Name="MoveDepsJson" AfterTargets="_GenerateFunctionsPostBuild">
-        <Move SourceFiles="$(TargetDir)$(TargetName).deps.json" DestinationFiles="$(TargetDir)bin\$(TargetName).deps.json" OverwriteReadOnlyFiles="true" Condition="Exists('$(TargetDir)$(TargetName).deps.json')" ContinueOnError="true" />
-        <Move SourceFiles="$(TargetDir)$(TargetName).runtimeconfig.json" DestinationFiles="$(TargetDir)bin\$(TargetName).runtimeconfig.json" OverwriteReadOnlyFiles="true" Condition="Exists('$(TargetDir)$(TargetName).runtimeconfig.json')" ContinueOnError="true" />
-        <Move SourceFiles="$(TargetDir)$(TargetName).runtimeconfig.dev.json" DestinationFiles="$(TargetDir)bin\$(TargetName).runtimeconfig.dev.json" OverwriteReadOnlyFiles="true" Condition="Exists('$(TargetDir)$(TargetName).runtimeconfig.dev.json')" ContinueOnError="true" />
-    </Target>
-</Project>
