@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <AzureFunctionsVersion>v2</AzureFunctionsVersion>
@@ -24,6 +24,5 @@
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
     </ItemGroup>
-    <Import Project="..\..\src\Azure.Functions\build\Rocket.Surgery.Azure.Functions.targets" />
     <Import Project="$([MSBuild]::GetPathOfFileAbove('Common.Build.targets', '$(MSBuildThisFileDirectory)../'))" />
 </Project>
