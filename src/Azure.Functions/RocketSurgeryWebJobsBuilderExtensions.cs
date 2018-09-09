@@ -24,7 +24,7 @@ namespace Rocket.Surgery.Azure.Functions
 {
     public static class RocketSurgeryWebJobsBuilderExtensions
     {
-        internal static IContainer BuildContainer(ILogger logger, ServiceCollection services, Assembly assembly, object startupInstance)
+        internal static IContainer BuildContainer(ILogger logger, ServiceCollection services, Assembly assembly, object startupInstance, IAssemblyCandidateFinder assemblyCandidateFinder, IAssemblyProvider assemblyProvider)
         {
             var environmentNames = new[]
             {
@@ -48,8 +48,8 @@ namespace Rocket.Surgery.Azure.Functions
             };
 
             var context = DependencyContext.Load(assembly);
-            var assemblyCandidateFinder = new DependencyContextAssemblyCandidateFinder(context, logger);
-            var assemblyProvider = new DependencyContextAssemblyProvider(context, logger);
+            assemblyCandidateFinder = assemblyCandidateFinder ?? new DependencyContextAssemblyCandidateFinder(context, logger);
+            assemblyProvider = assemblyProvider ?? new DependencyContextAssemblyProvider(context, logger);
             var scanner = new AggregateConventionScanner(assemblyCandidateFinder);
 
             if (startupInstance is IConvention convention)
@@ -91,7 +91,7 @@ namespace Rocket.Surgery.Azure.Functions
             return diBuilder.Build();
         }
 
-        public static IWebJobsBuilder AddRocketSurgery(this IWebJobsBuilder builder, Assembly  assembly, object startupInstance)
+        public static IWebJobsBuilder AddRocketSurgery(this IWebJobsBuilder builder, Assembly assembly, object startupInstance, IAssemblyCandidateFinder assemblyCandidateFinder = null, IAssemblyProvider assemblyProvider = null)
         {
             //builder.AddExtension<ServiceConfiguration>();
             var logger = new ServiceCollection()
@@ -108,7 +108,7 @@ namespace Rocket.Surgery.Azure.Functions
                 services.Add(s);
             }
 
-            var container = BuildContainer(logger, services, assembly, startupInstance);
+            var container = BuildContainer(logger, services, assembly, startupInstance, assemblyCandidateFinder, assemblyProvider);
 
             var injectBindingProvider = new ServiceBindingProvider(container, logger);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IBindingProvider>(injectBindingProvider));

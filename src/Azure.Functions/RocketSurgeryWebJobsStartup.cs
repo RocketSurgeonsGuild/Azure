@@ -19,7 +19,7 @@ namespace Rocket.Surgery.Azure.Functions
     {
         private readonly Assembly _assembly;
 
-        public RocketSurgeryWebJobsStartup(Assembly  assembly)
+        public RocketSurgeryWebJobsStartup(Assembly assembly)
         {
             _assembly = assembly;
         }
