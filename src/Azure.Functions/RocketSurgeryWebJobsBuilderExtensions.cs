@@ -24,7 +24,7 @@ namespace Rocket.Surgery.Azure.Functions
 {
     public static class RocketSurgeryWebJobsBuilderExtensions
     {
-        internal static IContainer BuildContainer(ILogger logger, ServiceCollection services, Assembly assembly, object startupInstance, IAssemblyCandidateFinder assemblyCandidateFinder, IAssemblyProvider assemblyProvider)
+        internal static IContainer BuildContainer(ILogger logger, IServiceCollection services, Assembly assembly, object startupInstance, IAssemblyCandidateFinder assemblyCandidateFinder, IAssemblyProvider assemblyProvider)
         {
             var environmentNames = new[]
             {
@@ -100,15 +100,7 @@ namespace Rocket.Surgery.Azure.Functions
                 .GetRequiredService<ILoggerFactory>()
                 .CreateLogger("WebJobsBuilder");
 
-            var services = new ServiceCollection();
-            foreach (var s in builder.Services.Where(x =>
-                x.ServiceType == typeof(ILoggerFactory) || x.ServiceType == typeof(ILogger<>) ||
-                x.ServiceType == typeof(IConfigureOptions<LoggerFilterOptions>)))
-            {
-                services.Add(s);
-            }
-
-            var container = BuildContainer(logger, services, assembly, startupInstance, assemblyCandidateFinder, assemblyProvider);
+            var container = BuildContainer(logger, new ServiceCollection(), assembly, startupInstance, assemblyCandidateFinder, assemblyProvider);
 
             var injectBindingProvider = new ServiceBindingProvider(container, logger);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IBindingProvider>(injectBindingProvider));
