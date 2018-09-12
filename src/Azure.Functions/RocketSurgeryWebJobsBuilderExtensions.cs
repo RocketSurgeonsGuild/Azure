@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -47,7 +48,23 @@ namespace Rocket.Surgery.Azure.Functions
                 ContentRootFileProvider = null
             };
 
-            var context = DependencyContext.Load(assembly);
+            var location = Path.GetDirectoryName(assembly.Location);
+            DependencyContext context = null;
+            while (context == null && !string.IsNullOrEmpty(location))
+            {
+                var depsFilePath = Path.Combine(location, assembly.GetName().Name + ".deps.json");
+                if (File.Exists(depsFilePath))
+                {
+                    using (var stream = File.Open(depsFilePath, FileMode.Open, FileAccess.Read))
+                    {
+                        context = new DependencyContextJsonReader().Read(stream);
+                        break;
+                    }
+                }
+                location = Path.GetDirectoryName(location);
+            }
+
+            // var context = DependencyContext.Load(assembly);
             assemblyCandidateFinder = assemblyCandidateFinder ?? new DependencyContextAssemblyCandidateFinder(context, logger);
             assemblyProvider = assemblyProvider ?? new DependencyContextAssemblyProvider(context, logger);
             var scanner = new AggregateConventionScanner(assemblyCandidateFinder);
