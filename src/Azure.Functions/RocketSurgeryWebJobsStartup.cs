@@ -10,6 +10,7 @@ using Rocket.Surgery.Conventions;
 using Rocket.Surgery.Extensions.DependencyInjection;
 using Rocket.Surgery.Reflection.Extensions;
 using ExecutionContext = Microsoft.Azure.WebJobs.ExecutionContext;
+using Rocket.Surgery.Hosting;
 
 //[assembly: WebJobsStartup(typeof(RocketSurgeryWebJobsStartup))]
 
@@ -26,7 +27,9 @@ namespace Rocket.Surgery.Azure.Functions
 
         public virtual void Configure(IWebJobsBuilder builder)
         {
-            builder.AddRocketSurgery(_assembly, this);
+            builder.AddRocketSurgery(_assembly, this, OnBuild);
         }
+
+        protected abstract void OnBuild(IConventionHostBuilder builder);
     }
 }

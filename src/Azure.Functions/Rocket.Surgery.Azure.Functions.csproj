@@ -9,6 +9,7 @@
         <PackageReference Include="Rocket.Surgery.Extensions" />
         <PackageReference Include="Rocket.Surgery.Extensions.Autofac" />
         <PackageReference Include="Rocket.Surgery.Extensions.Configuration" />
+        <PackageReference Include="Rocket.Surgery.Hosting.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
     </ItemGroup>
 </Project>

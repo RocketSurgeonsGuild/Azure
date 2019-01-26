@@ -25,7 +25,7 @@ namespace Rocket.Surgery.Azure.Functions
 {
     public static class RocketSurgeryWebJobsBuilderExtensions
     {
-        internal static IContainer BuildContainer(ILogger logger, IServiceCollection services, Assembly assembly, object startupInstance, IAssemblyCandidateFinder assemblyCandidateFinder, IAssemblyProvider assemblyProvider)
+        internal static IContainer BuildContainer(ILogger logger, IServiceCollection services, Assembly assembly, object startupInstance, Action<IConventionHostBuilder> buildAction)
         {
             var environmentNames = new[]
             {
@@ -65,18 +65,22 @@ namespace Rocket.Surgery.Azure.Functions
             }
 
             // var context = DependencyContext.Load(assembly);
-            assemblyCandidateFinder = assemblyCandidateFinder ?? new DependencyContextAssemblyCandidateFinder(context, logger);
-            assemblyProvider = assemblyProvider ?? new DependencyContextAssemblyProvider(context, logger);
+            var assemblyCandidateFinder = new DependencyContextAssemblyCandidateFinder(context, logger);
+            var assemblyProvider = new DependencyContextAssemblyProvider(context, logger);
             var scanner = new AggregateConventionScanner(assemblyCandidateFinder);
+            var properties = new Dictionary<object, object>();
+            var diagnosticSource = new DiagnosticListener("Rocket.Surgery.Azure");
+
+            var hostingContext = new RocketHostingContext(scanner, assemblyCandidateFinder, assemblyProvider, diagnosticSource, properties);
+
+            buildAction(hostingContext);
 
             if (startupInstance is IConvention convention)
             {
-                scanner.PrependConvention(convention);
+                scanner.AppendConvention(convention);
             }
 
             var extBuilder = new Microsoft.Extensions.Configuration.ConfigurationBuilder();
-            var properties = new Dictionary<object, object>();
-            var diagnosticSource = new DiagnosticListener("Rocket.Surgery.Azure");
             var configurationBuilder = new ConfigurationBuilder(
                 scanner,
                 envionment,
@@ -108,7 +112,7 @@ namespace Rocket.Surgery.Azure.Functions
             return diBuilder.Build();
         }
 
-        public static IWebJobsBuilder AddRocketSurgery(this IWebJobsBuilder builder, Assembly assembly, object startupInstance, IAssemblyCandidateFinder assemblyCandidateFinder = null, IAssemblyProvider assemblyProvider = null)
+        public static IWebJobsBuilder AddRocketSurgery(this IWebJobsBuilder builder, Assembly assembly, object startupInstance, Action<IConventionHostBuilder> buildAction)
         {
             //builder.AddExtension<ServiceConfiguration>();
             var logger = new ServiceCollection()
@@ -117,7 +121,7 @@ namespace Rocket.Surgery.Azure.Functions
                 .GetRequiredService<ILoggerFactory>()
                 .CreateLogger("WebJobsBuilder");
 
-            var container = BuildContainer(logger, new ServiceCollection(), assembly, startupInstance, assemblyCandidateFinder, assemblyProvider);
+            var container = BuildContainer(logger, new ServiceCollection(), assembly, startupInstance, buildAction);
 
             var injectBindingProvider = new ServiceBindingProvider(container, logger);
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IBindingProvider>(injectBindingProvider));

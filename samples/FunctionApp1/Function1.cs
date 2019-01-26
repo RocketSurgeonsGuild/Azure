@@ -19,7 +19,7 @@ using Microsoft.Azure.WebJobs.Hosting;
 
 namespace FunctionApp1
 {
-    public class Startup : RocketSurgeryWebJobsStartup,  IServiceConvention
+    public class Startup : RocketSurgeryWebJobsStartup, IServiceConvention
     {
         public Startup() : base(typeof(Startup).Assembly)
         {
@@ -28,6 +28,11 @@ namespace FunctionApp1
         public void Register(IServiceConventionContext context)
         {
             context.Services.AddTransient<HelloWorld>();
+        }
+
+        protected override void OnBuild(IConventionHostBuilder builder)
+        {
+
         }
     }
 
