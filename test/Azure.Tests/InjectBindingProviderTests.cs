@@ -30,11 +30,16 @@ namespace Rocket.Surgery.Azure.Tests
                 .ReturnsLazily(call => scope);
             A.CallTo(() => scope.ServiceProvider)
                 .ReturnsLazily(call => AutoFake.Container.BeginLifetimeScope().Resolve<IServiceProvider>());
-            AutoFake.Provide(A.Fake<IFunctionFilter>());
-            A.CallTo(() => scope.ServiceProvider.GetService(typeof(IEnumerable<IFunctionFilter>)))
-                .ReturnsLazily(call => Enumerable.Empty<IFunctionFilter>());
-            A.CallTo(() => AutoFake.Resolve<IServiceProvider>().GetService(typeof(IEnumerable<IFunctionFilter>)))
-                .ReturnsLazily(call => Enumerable.Empty<IFunctionFilter>());
+            AutoFake.Provide(A.Fake<IRocketSurgeryFunctionInvocationFilter>());
+            A.CallTo(() => scope.ServiceProvider.GetService(typeof(IEnumerable<IRocketSurgeryFunctionInvocationFilter>)))
+                .ReturnsLazily(call => Enumerable.Empty<IRocketSurgeryFunctionInvocationFilter>());
+            A.CallTo(() => AutoFake.Resolve<IServiceProvider>().GetService(typeof(IEnumerable<IRocketSurgeryFunctionInvocationFilter>)))
+                .ReturnsLazily(call => Enumerable.Empty<IRocketSurgeryFunctionInvocationFilter>());
+            AutoFake.Provide(A.Fake<IRocketSurgeryFunctionExceptionFilter>());
+            A.CallTo(() => scope.ServiceProvider.GetService(typeof(IEnumerable<IRocketSurgeryFunctionExceptionFilter>)))
+                .ReturnsLazily(call => Enumerable.Empty<IRocketSurgeryFunctionExceptionFilter>());
+            A.CallTo(() => AutoFake.Resolve<IServiceProvider>().GetService(typeof(IEnumerable<IRocketSurgeryFunctionExceptionFilter>)))
+                .ReturnsLazily(call => Enumerable.Empty<IRocketSurgeryFunctionExceptionFilter>());
         }
 
         [Fact]
@@ -73,7 +78,7 @@ namespace Rocket.Surgery.Azure.Tests
                 CancellationToken.None
             );
 
-            A.CallTo(() => container.GetService(typeof(IServiceScopeFactory))).MustNotHaveHappened();
+            A.CallTo(() => container.GetService(typeof(IServiceScopeFactory))).MustHaveHappened();
         }
 
         [Fact]

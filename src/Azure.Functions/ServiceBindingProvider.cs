@@ -80,34 +80,40 @@ namespace Rocket.Surgery.Azure.Functions
             cancellationToken.Register(() => DisposeScope(context.FunctionInstanceId));
             var scope = GetScope(context.FunctionInstanceId);
 
-            var filters = scope.ServiceProvider.GetRequiredService<IEnumerable<IRocketSurgeryFunctionInvocationFilter>>();
-            var rsContext = new RocketSurgeryFunctionExecutingContext(
-                scope.ServiceProvider,
-                context.Arguments,
-                context.FunctionInstanceId,
-                context.FunctionName,
-                context.Properties,
-                context.Logger
-            );
-            foreach (var filter in filters)
-               await filter.OnExecutingAsync(rsContext, cancellationToken);
+            var filters = scope.ServiceProvider.GetService(typeof(IEnumerable<IRocketSurgeryFunctionInvocationFilter>)) as IEnumerable<IRocketSurgeryFunctionInvocationFilter>;
+            if (filters != null)
+            {
+                var rsContext = new RocketSurgeryFunctionExecutingContext(
+                    scope.ServiceProvider,
+                    context.Arguments,
+                    context.FunctionInstanceId,
+                    context.FunctionName,
+                    context.Properties,
+                    context.Logger
+                );
+                foreach (var filter in filters)
+                    await filter.OnExecutingAsync(rsContext, cancellationToken);
+            }
         }
 
         async Task IFunctionInvocationFilter.OnExecutedAsync(FunctionExecutedContext context, CancellationToken cancellationToken)
         {
             var scope = GetScope(context.FunctionInstanceId);
-            var filters = scope.ServiceProvider.GetRequiredService<IEnumerable<IRocketSurgeryFunctionInvocationFilter>>();
-            var rsContext = new RocketSurgeryFunctionExecutedContext(
-                scope.ServiceProvider,
-                context.Arguments,
-                context.FunctionInstanceId,
-                context.FunctionName,
-                context.Properties,
-                context.Logger,
-                context.FunctionResult
-            );
-            foreach (var filter in filters)
-               await filter.OnExecutedAsync(rsContext, cancellationToken);
+            var filters = scope.ServiceProvider.GetService(typeof(IEnumerable<IRocketSurgeryFunctionInvocationFilter>)) as IEnumerable<IRocketSurgeryFunctionInvocationFilter>;
+            if (filters != null)
+            {
+                var rsContext = new RocketSurgeryFunctionExecutedContext(
+                    scope.ServiceProvider,
+                    context.Arguments,
+                    context.FunctionInstanceId,
+                    context.FunctionName,
+                    context.Properties,
+                    context.Logger,
+                    context.FunctionResult
+                );
+                foreach (var filter in filters)
+                    await filter.OnExecutedAsync(rsContext, cancellationToken);
+            }
 
             DisposeScope(context.FunctionInstanceId);
         }
@@ -116,18 +122,21 @@ namespace Rocket.Surgery.Azure.Functions
         {
 
             var scope = GetScope(context.FunctionInstanceId);
-            var filters = scope.ServiceProvider.GetRequiredService<IEnumerable<IRocketSurgeryFunctionExceptionFilter>>();
-            var rsContext = new RocketSurgeryFunctionExceptionContext(
-                scope.ServiceProvider,
-                context.FunctionInstanceId,
-                context.FunctionName,
-                context.Properties,
-                context.Logger,
-                context.Exception,
-                context.ExceptionDispatchInfo
-            );
-            foreach (var filter in filters)
-               await filter.OnExceptionAsync(rsContext, cancellationToken);
+            var filters = scope.ServiceProvider.GetService(typeof(IEnumerable<IRocketSurgeryFunctionExceptionFilter>)) as IEnumerable<IRocketSurgeryFunctionExceptionFilter>;
+            if (filters != null)
+            {
+                var rsContext = new RocketSurgeryFunctionExceptionContext(
+                    scope.ServiceProvider,
+                    context.FunctionInstanceId,
+                    context.FunctionName,
+                    context.Properties,
+                    context.Logger,
+                    context.Exception,
+                    context.ExceptionDispatchInfo
+                );
+                foreach (var filter in filters)
+                    await filter.OnExceptionAsync(rsContext, cancellationToken);
+            }
 
             DisposeScope(context.FunctionInstanceId);
         }
