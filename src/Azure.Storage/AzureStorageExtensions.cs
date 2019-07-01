@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Microsoft.WindowsAzure.Storage.Table
 {
     /// <summary>
-    /// Class AzureStorageExtensions.
+    /// AzureStorageExtensions.
     /// </summary>
     /// TODO Edit XML Comment Template for AzureStorageExtensions
     public static class AzureStorageExtensions

@@ -18,7 +18,7 @@ using Rocket.Surgery.Reflection.Extensions;
 namespace Rocket.Surgery.Azure.Storage
 {
     /// <summary>
-    /// Class ComplexTableEntity.
+    /// ComplexTableEntity.
     /// </summary>
     /// <seealso cref="Microsoft.WindowsAzure.Storage.Table.ITableEntity" />
     /// TODO Edit XML Comment Template for ComplexTableEntity
