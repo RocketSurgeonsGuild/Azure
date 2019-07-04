@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Microsoft.WindowsAzure.Storage.Table
 {
     /// <summary>
-    /// Class AzureStorageExtensions.
+    /// AzureStorageExtensions.
     /// </summary>
     /// TODO Edit XML Comment Template for AzureStorageExtensions
     public static class AzureStorageExtensions
@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
-        /// <returns>Task&lt;IEnumerable&lt;DynamicTableEntity&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{DynamicTableEntity}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync
         public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table,TableQuery query)
         {
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions)
         {
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
         /// <param name="operationContext"></param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, OperationContext operationContext)
         {
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, CancellationToken cancellationToken)
         {
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, CancellationToken cancellationToken)
         {
@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="requestOptions"></param>
         /// <param name="operationContext"></param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task&lt;IEnumerable&lt;DynamicTableEntity&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{DynamicTableEntity}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync
         public static async Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
         {
@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// </summary>
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
-        /// <returns>IObservable&lt;DynamicTableEntity&gt;.</returns>
+        /// <returns>IObservable{DynamicTableEntity}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQuery
         public static IObservable<DynamicTableEntity> ObserveQuery(this CloudTable table, TableQuery query)
         {
@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
-        /// <returns>IObservable&lt;DynamicTableEntity&gt;.</returns>
+        /// <returns>IObservable{DynamicTableEntity}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQuery
         public static IObservable<DynamicTableEntity> ObserveQuery(this CloudTable table, TableQuery query, TableRequestOptions requestOptions)
         {
@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
         /// <param name="operationContext"></param>
-        /// <returns>IObservable&lt;DynamicTableEntity&gt;.</returns>
+        /// <returns>IObservable{DynamicTableEntity}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQuery
         public static IObservable<DynamicTableEntity> ObserveQuery(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, OperationContext operationContext)
         {
@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <typeparam name="T"></typeparam>
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query)
             where T : ITableEntity, new()
@@ -179,7 +179,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions)
             where T : ITableEntity, new()
@@ -195,7 +195,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
         /// <param name="operationContext"></param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static  Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, OperationContext operationContext)
             where T : ITableEntity, new()
@@ -210,7 +210,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, CancellationToken cancellationToken)
             where T : ITableEntity, new()
@@ -226,7 +226,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, CancellationToken cancellationToken)
             where T : ITableEntity, new()
@@ -243,7 +243,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="operationContext"></param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <param name="requestOptions"></param>
-        /// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+        /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
         public static async Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
             where T : ITableEntity, new()
@@ -266,7 +266,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <typeparam name="T"></typeparam>
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
-        /// <returns>IObservable&lt;T&gt;.</returns>
+        /// <returns>IObservable{T}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQuery`1
         public static IObservable<T> ObserveQuery<T>(this CloudTable table, TableQuery<T> query)
             where T : ITableEntity, new()
@@ -280,7 +280,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="table">The table.</param>
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
-        /// <returns>IObservable&lt;DynamicTableEntity&gt;.</returns>
+        /// <returns>IObservable{DynamicTableEntity}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQuery
         public static IObservable<T> ObserveQuery<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions)
             where T : ITableEntity, new()
@@ -295,7 +295,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <param name="requestOptions"></param>
         /// <param name="operationContext"></param>
-        /// <returns>IObservable&lt;DynamicTableEntity&gt;.</returns>
+        /// <returns>IObservable{DynamicTableEntity}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQuery
         public static IObservable<T> ObserveQuery<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, OperationContext operationContext)
             where T : ITableEntity, new()
