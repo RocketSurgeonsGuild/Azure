@@ -9,7 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Nuke.Common" Version="0.21.2" />
-    <PackageReference Update="Rocket.Surgery.Nuke.DotNetCore" Version="0.3.6" />
+    <PackageReference Update="Rocket.Surgery.Nuke.DotNetCore" Version="0.3.8" />
     <PackageReference Update="GitVersion.CommandLine.DotNetCore" Version="5.0.1" />
     <PackageReference Update="ReportGenerator" Version="4.2.15" />
   </ItemGroup>
@@ -20,21 +20,21 @@
     <PackageReference Update="Microsoft.Azure.WebJobs.Extensions" Version="3.0.2" />
     <PackageReference Update="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
     <PackageReference Update="Microsoft.Extensions.Hosting" Version="3.0.0-preview8.19405.4" />
-    <PackageReference Update="Rocket.Surgery.Extensions" Version="1.0.3" />
-    <PackageReference Update="Rocket.Surgery.Extensions.Autofac" Version="6.0.0" />
-    <PackageReference Update="Rocket.Surgery.Extensions.Configuration" Version="7.0.2" />
-    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="7.0.2" />
+    <PackageReference Update="Rocket.Surgery.Extensions" Version="1.0.4" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Autofac" Version="6.0.1" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Configuration" Version="7.0.4" />
+    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="7.0.4" />
     <PackageReference Update="Microsoft.Extensions.Logging" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="WindowsAzure.Storage" Version="9.3.3" />
-    <PackageReference Update="Rocket.Surgery.Linq.Extensions" Version="1.0.3" />
-    <PackageReference Update="Rocket.Surgery.Reactive.Extensions" Version="1.0.3" />
+    <PackageReference Update="Rocket.Surgery.Linq.Extensions" Version="1.0.4" />
+    <PackageReference Update="Rocket.Surgery.Reactive.Extensions" Version="1.0.4" />
     <PackageReference Update="Microsoft.Extensions.Options" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="NodaTime" Version="2.4.6" />
     <PackageReference Update="NodaTime.Serialization.JsonNet" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Rocket.Surgery.Extensions.Testing" Version="1.1.13" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Testing" Version="1.2.1" />
     <PackageReference Update="Autofac.Extras.FakeItEasy" Version="5.0.1" />
     <PackageReference Update="Bogus" Version="28.0.2" />
     <PackageReference Update="coverlet.collector" Version="1.0.1" />
