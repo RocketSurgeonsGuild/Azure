@@ -14,28 +14,28 @@
     <PackageReference Update="Microsoft.Azure.WebJobs.Extensions" Version="3.0.2" />
     <PackageReference Update="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
     <PackageReference Update="Microsoft.Extensions.Hosting" Version="3.0.0-preview8.19405.4" />
-    <PackageReference Update="Rocket.Surgery.Extensions" Version="1.0.4" />
-    <PackageReference Update="Rocket.Surgery.Extensions.Autofac" Version="6.0.1" />
-    <PackageReference Update="Rocket.Surgery.Extensions.Configuration" Version="7.0.4" />
-    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="7.0.4" />
+    <PackageReference Update="Rocket.Surgery.Extensions" Version="1.0.5" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Autofac" Version="6.0.3" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Configuration" Version="7.2.1" />
+    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="7.2.1" />
     <PackageReference Update="Microsoft.Extensions.Logging" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="WindowsAzure.Storage" Version="9.3.3" />
-    <PackageReference Update="Rocket.Surgery.Linq.Extensions" Version="1.0.4" />
-    <PackageReference Update="Rocket.Surgery.Reactive.Extensions" Version="1.0.4" />
+    <PackageReference Update="Rocket.Surgery.Linq.Extensions" Version="1.0.5" />
+    <PackageReference Update="Rocket.Surgery.Reactive.Extensions" Version="1.0.5" />
     <PackageReference Update="Microsoft.Extensions.Options" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0-preview8.19405.4" />
-    <PackageReference Update="NodaTime" Version="2.4.6" />
+    <PackageReference Update="NodaTime" Version="2.4.7" />
     <PackageReference Update="NodaTime.Serialization.JsonNet" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Rocket.Surgery.Extensions.Testing" Version="1.2.1" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Testing" Version="1.2.3" />
     <PackageReference Update="Autofac.Extras.FakeItEasy" Version="5.0.1" />
-    <PackageReference Update="Bogus" Version="28.0.2" />
+    <PackageReference Update="Bogus" Version="28.2.1" />
     <PackageReference Update="coverlet.collector" Version="1.0.1" />
     <PackageReference Update="coverlet.msbuild" Version="2.6.3" />
-    <PackageReference Update="FakeItEasy" Version="5.1.1" />
-    <PackageReference Update="FakeItEasy.Analyzer.CSharp" Version="5.1.1" />
-    <PackageReference Update="FluentAssertions" Version="5.8.0" />
+    <PackageReference Update="FakeItEasy" Version="5.2.0" />
+    <PackageReference Update="FakeItEasy.Analyzer.CSharp" Version="5.2.0" />
+    <PackageReference Update="FluentAssertions" Version="5.9.0" />
     <PackageReference Update="FluentAssertions.Analyzers" Version="0.11.4" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Update="xunit" Version="2.4.1" />
