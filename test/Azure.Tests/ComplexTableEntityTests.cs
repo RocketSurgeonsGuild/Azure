@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace Rocket.Surgery.Azure.Tests
 {
-    public class ComplexTableEntityTests : AutoTestBase
+    public class ComplexTableEntityTests : AutoFakeTest
     {
         public ComplexTableEntityTests(ITestOutputHelper outputHelper) : base(outputHelper) { }
 
