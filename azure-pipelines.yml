@@ -7,8 +7,10 @@ trigger:
   paths:
     exclude:
     - '**/*.md'
-    - '**/*.yml'
-    - '**/*.yaml'
+    - '.appveyor.yml'
+    - '.codecov.yml'
+    - 'GitVersion.yml'
+    - 'GitReleaseManager.yaml'
     - .vscode/*
     - .git*
     - .editorconfig
