@@ -15,9 +15,9 @@
     <PackageReference Update="Microsoft.Azure.WebJobs.Extensions.Http" Version="3.0.2" />
     <PackageReference Update="Microsoft.Extensions.Hosting" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="Rocket.Surgery.Extensions" Version="1.0.6" />
-    <PackageReference Update="Rocket.Surgery.Extensions.Autofac" Version="6.0.5" />
-    <PackageReference Update="Rocket.Surgery.Extensions.Configuration" Version="8.0.0" />
-    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="8.0.0" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Autofac" Version="7.0.0" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Configuration" Version="9.0.3" />
+    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="9.0.3" />
     <PackageReference Update="Microsoft.Extensions.Logging" Version="3.0.0-preview8.19405.4" />
     <PackageReference Update="WindowsAzure.Storage" Version="9.3.3" />
     <PackageReference Update="Rocket.Surgery.Linq.Extensions" Version="1.0.6" />
@@ -28,7 +28,7 @@
     <PackageReference Update="NodaTime.Serialization.JsonNet" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Rocket.Surgery.Extensions.Testing.FakeItEasy" Version="2.0.0" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Testing.FakeItEasy" Version="2.1.2" />
     <PackageReference Update="Autofac.Extras.FakeItEasy" Version="5.0.1" />
     <PackageReference Update="Bogus" Version="28.2.1" />
     <PackageReference Update="coverlet.collector" Version="1.0.1" />
