@@ -200,6 +200,10 @@ project.lock.json
 /tools/*.exe
 /tools/*.md5sum
 !tools/packages.config
-*.pubxml
+/scripts/
+src/Cake.Scripts/tools/tools/
 
 codealike.json
+
+# Rider
+.idea/
