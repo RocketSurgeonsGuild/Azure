@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.1;netcoreapp3.0;netstandard2.0;netcoreapp2.1</TargetFrameworks>
+        <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="WindowsAzure.Storage" />
-        <PackageReference Include="Rocket.Surgery.Extensions" />
-        <PackageReference Include="Rocket.Surgery.Linq.Extensions" />
-        <PackageReference Include="Rocket.Surgery.Reactive.Extensions" />
+        <PackageReference Include="Microsoft.Azure.Cosmos.Table" />
         <PackageReference Include="Microsoft.Extensions.Options" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="System.Reactive" />
+        <PackageReference Include="System.Interactive" />
         <PackageReference Include="NodaTime" />
         <PackageReference Include="NodaTime.Serialization.JsonNet" />
         <PackageReference Include="Newtonsoft.Json" />
+        <PackageReference Include="Rocket.Surgery.Extensions.Binding" />
     </ItemGroup>
 </Project>
