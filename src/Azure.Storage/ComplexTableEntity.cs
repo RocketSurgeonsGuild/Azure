@@ -2,9 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -12,15 +10,15 @@ using NodaTime;
 using NodaTime.Serialization.JsonNet;
 using NodaTime.Text;
 using Rocket.Surgery.Azure.Storage.Converters;
+using Rocket.Surgery.Azure.Storage.Internals;
 using Rocket.Surgery.Binding;
-using Rocket.Surgery.Reflection.Extensions;
 
 namespace Rocket.Surgery.Azure.Storage
 {
     /// <summary>
     /// ComplexTableEntity.
     /// </summary>
-    /// <seealso cref="Microsoft.WindowsAzure.Storage.Table.ITableEntity" />
+    /// <seealso cref="Microsoft.Azure.Cosmos.Table.ITableEntity" />
     /// TODO Edit XML Comment Template for ComplexTableEntity
     public abstract class ComplexTableEntity : ITableEntity
     {

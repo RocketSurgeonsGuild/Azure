@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.WindowsAzure.Storage.Table
+namespace Microsoft.Azure.Cosmos.Table
 {
     /// <summary>
     /// AzureStorageExtensions.
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <returns>Task{IEnumerable{DynamicTableEntity}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync
-        public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table,TableQuery query)
+        public static IAsyncEnumerable<DynamicTableEntity> ExecuteQueryAsync(this CloudTable table, TableQuery query)
         {
             return ExecuteQueryAsync(table, query, CancellationToken.None);
         }
@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="requestOptions"></param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions)
+        public static IAsyncEnumerable<DynamicTableEntity> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions)
         {
             return ExecuteQueryAsync(table, query, requestOptions, null, CancellationToken.None);
         }
@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="operationContext"></param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, OperationContext operationContext)
+        public static IAsyncEnumerable<DynamicTableEntity> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             return ExecuteQueryAsync(table, query, requestOptions, operationContext, CancellationToken.None);
         }
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, CancellationToken cancellationToken)
+        public static IAsyncEnumerable<DynamicTableEntity> ExecuteQueryAsync(this CloudTable table, TableQuery query, CancellationToken cancellationToken)
         {
             return ExecuteQueryAsync(table, query, null, null, cancellationToken);
         }
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, CancellationToken cancellationToken)
+        public static IAsyncEnumerable<DynamicTableEntity> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, CancellationToken cancellationToken)
         {
             return ExecuteQueryAsync(table, query, requestOptions, null, cancellationToken);
         }
@@ -89,18 +89,21 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Task{IEnumerable{DynamicTableEntity}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync
-        public static async Task<IEnumerable<DynamicTableEntity>> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
+        public static async IAsyncEnumerable<DynamicTableEntity> ExecuteQueryAsync(this CloudTable table, TableQuery query, TableRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
         {
             TableContinuationToken continuationToken = null;
-            var results = new List<DynamicTableEntity>();
             do
             {
                 var querySegment = await table.ExecuteQuerySegmentedAsync(query, continuationToken, requestOptions, operationContext, cancellationToken).ConfigureAwait(false);
-                results.AddRange(querySegment);
+                foreach (var item in querySegment)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+                    await Task.Yield();
+                    yield return item;
+                }
                 continuationToken = querySegment.ContinuationToken;
             } while (continuationToken != null && !cancellationToken.IsCancellationRequested);
-
-            return results;
         }
 
         /// <summary>
@@ -166,7 +169,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="query">The query.</param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query)
+        public static IAsyncEnumerable<T> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query)
             where T : ITableEntity, new()
         {
             return ExecuteQueryAsync(table, query, CancellationToken.None);
@@ -181,7 +184,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="requestOptions"></param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions)
+        public static IAsyncEnumerable<T> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions)
             where T : ITableEntity, new()
         {
             return ExecuteQueryAsync(table, query, requestOptions, null, CancellationToken.None);
@@ -197,7 +200,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="operationContext"></param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static  Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, OperationContext operationContext)
+        public static IAsyncEnumerable<T> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, OperationContext operationContext)
             where T : ITableEntity, new()
         {
             return ExecuteQueryAsync(table, query, requestOptions, operationContext, CancellationToken.None);
@@ -212,7 +215,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, CancellationToken cancellationToken)
+        public static IAsyncEnumerable<T> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, CancellationToken cancellationToken)
             where T : ITableEntity, new()
         {
             return ExecuteQueryAsync(table, query, null, null, cancellationToken);
@@ -228,7 +231,7 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, CancellationToken cancellationToken)
+        public static IAsyncEnumerable<T> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, CancellationToken cancellationToken)
             where T : ITableEntity, new()
         {
             return ExecuteQueryAsync(table, query, requestOptions, null, cancellationToken);
@@ -245,19 +248,22 @@ namespace Microsoft.WindowsAzure.Storage.Table
         /// <param name="requestOptions"></param>
         /// <returns>Task{IEnumerable{T}}.</returns>
         /// TODO Edit XML Comment Template for ExecuteQueryAsync`1
-        public static async Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
+        public static async IAsyncEnumerable<T> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, TableRequestOptions requestOptions, OperationContext operationContext, CancellationToken cancellationToken)
             where T : ITableEntity, new()
         {
             TableContinuationToken continuationToken = null;
-            var results = new List<T>();
             do
             {
-                var querySegment = await table.ExecuteQuerySegmentedAsync(query, continuationToken, null, null, cancellationToken).ConfigureAwait(false);
-                results.AddRange(querySegment);
+                var querySegment = await table.ExecuteQuerySegmentedAsync(query, continuationToken, requestOptions, operationContext, cancellationToken).ConfigureAwait(false);
+                foreach (var item in querySegment)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+                    await Task.Yield();
+                    yield return item;
+                }
                 continuationToken = querySegment.ContinuationToken;
             } while (continuationToken != null && !cancellationToken.IsCancellationRequested);
-
-            return results;
         }
 
         /// <summary>

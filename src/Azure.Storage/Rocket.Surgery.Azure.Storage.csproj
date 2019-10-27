@@ -8,9 +8,11 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
         <PackageReference Include="System.Reactive" />
         <PackageReference Include="System.Interactive" />
+        <PackageReference Include="System.Interactive.Async" />
         <PackageReference Include="NodaTime" />
         <PackageReference Include="NodaTime.Serialization.JsonNet" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="Rocket.Surgery.Extensions.Binding" />
+        <PackageReference Include="System.Reflection.Emit.Lightweight" />
     </ItemGroup>
 </Project>

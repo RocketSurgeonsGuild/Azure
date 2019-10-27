@@ -4,6 +4,5 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\Azure.Storage\Rocket.Surgery.Azure.Storage.csproj" />
-        <PackageReference Include="Newtonsoft.Json" />
     </ItemGroup>
 </Project>
