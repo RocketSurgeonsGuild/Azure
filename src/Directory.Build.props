@@ -5,4 +5,8 @@
         <IsPackable>true</IsPackable>
         <RootNamespace>$(MSBuildProjectName.Replace('.Abstractions', ''))</RootNamespace>
     </PropertyGroup>
+    <ItemGroup>
+        <AdditionalFiles Condition="Exists('PublicAPI.Shipped.txt')" Include="PublicAPI.Shipped.txt" />
+        <AdditionalFiles Condition="Exists('PublicAPI.Unshipped.txt')" Include="PublicAPI.Unshipped.txt" />
+    </ItemGroup>
 </Project>
