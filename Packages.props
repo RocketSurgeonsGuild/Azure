@@ -21,7 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="9.0.6" />
+    <PackageReference Update="Rocket.Surgery.Hosting.Abstractions" Version="9.0.7" />
     <PackageReference Update="Microsoft.Azure.Cosmos.Table" Version="1.0.5" />
     <PackageReference Update="Microsoft.Extensions.Options" Version="2.1.1" />
     <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="2.1.1" />
