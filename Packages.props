@@ -30,7 +30,7 @@
     <PackageReference Update="System.Reactive" Version="4.3.1" />
     <PackageReference Update="System.Interactive" Version="4.0.0" />
     <PackageReference Update="System.Interactive.Async" Version="4.0.0" />
-    <PackageReference Update="Rocket.Surgery.Extensions.Binding" Version="2.1.0" />
+    <PackageReference Update="Rocket.Surgery.Extensions.Binding" Version="2.1.1" />
     <PackageReference Update="System.Reflection.Emit.Lightweight" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
