@@ -15,9 +15,9 @@
 <!-- history badges -->
 
 <!-- nuget packages -->
-| Package | NuGet | MyGet |
-| ------- | ----- | ----- |
-| Rocket.Surgery.Azure.Storage | [![nuget-version-knzgr7p68etg-badge]![nuget-downloads-knzgr7p68etg-badge]][nuget-knzgr7p68etg] | [![myget-version-knzgr7p68etg-badge]![myget-downloads-knzgr7p68etg-badge]][myget-knzgr7p68etg] |
+| Package | NuGet |
+| ------- | ----- |
+| Rocket.Surgery.Azure.Storage | [![nuget-version-knzgr7p68etg-badge]![nuget-downloads-knzgr7p68etg-badge]][nuget-knzgr7p68etg] |
 <!-- nuget packages -->
 
 # Whats next?
@@ -41,9 +41,6 @@ TBD
 [nuget-knzgr7p68etg]: https://www.nuget.org/packages/Rocket.Surgery.Azure.Storage/
 [nuget-version-knzgr7p68etg-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Azure.Storage.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
 [nuget-downloads-knzgr7p68etg-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Azure.Storage.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
-[myget-knzgr7p68etg]: https://www.myget.org/feed/rocket-surgeons-guild/package/nuget/Rocket.Surgery.Azure.Storage
-[myget-version-knzgr7p68etg-badge]: https://img.shields.io/myget/rocket-surgeons-guild/vpre/Rocket.Surgery.Azure.Storage.svg?label=myget&color=004880&logo=nuget&style=flat-square "MyGet Pre-Release Version"
-[myget-downloads-knzgr7p68etg-badge]: https://img.shields.io/myget/rocket-surgeons-guild/dt/Rocket.Surgery.Azure.Storage.svg?color=004880&logo=nuget&style=flat-square "MyGet Downloads"
 <!-- generated references -->
 
 <!-- nuke-data
@@ -57,6 +54,4 @@ azurepipelines:
 appveyor:
   account: RocketSurgeonsGuild
   build: Azure
-myget:
-  account: rocket-surgeons-guild
 -->
