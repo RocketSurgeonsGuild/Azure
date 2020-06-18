@@ -8,10 +8,10 @@
 <!-- badges -->
 
 <!-- history badges -->
-| Azure Pipelines | AppVeyor |
-| --------------- | -------- |
-| [![azurepipelines-badge]][azurepipelines] | [![appveyor-badge]][appveyor] |
-| [![azurepipelines-history-badge]][azurepipelines-history] | [![appveyor-history-badge]][appveyor-history] |
+| Azure Pipelines | GitHub Actions |
+| --------------- | -------------- |
+| [![azurepipelines-badge]][azurepipelines] | [![github-badge]][github] |
+| [![azurepipelines-history-badge]][azurepipelines-history] | [![github-history-badge]][github] |
 <!-- history badges -->
 
 <!-- nuget packages -->
@@ -34,10 +34,9 @@ TBD
 [azurepipelines-badge]: https://img.shields.io/azure-devops/build/rocketsurgeonsguild/Libraries/14.svg?color=98C6FF&label=azure%20pipelines&logo=azuredevops&logoColor=98C6FF&style=flat "Azure Pipelines Status"
 [azurepipelines-history]: https://rocketsurgeonsguild.visualstudio.com/Libraries/_build?definitionId=14&branchName=master
 [azurepipelines-history-badge]: https://buildstats.info/azurepipelines/chart/rocketsurgeonsguild/Libraries/14?includeBuildsFromPullRequest=false "Azure Pipelines History"
-[appveyor]: https://ci.appveyor.com/project/RocketSurgeonsGuild/Azure
-[appveyor-badge]: https://img.shields.io/appveyor/ci/RocketSurgeonsGuild/Azure.svg?color=00b3e0&label=appveyor&logo=appveyor&logoColor=00b3e0&style=flat "AppVeyor Status"
-[appveyor-history]: https://ci.appveyor.com/project/RocketSurgeonsGuild/Azure/history
-[appveyor-history-badge]: https://buildstats.info/appveyor/chart/RocketSurgeonsGuild/Azure?includeBuildsFromPullRequest=false "AppVeyor History"
+[github]: https://github.com/RocketSurgeonsGuild/Azure/actions?query=workflow%3Aci
+[github-badge]: https://img.shields.io/github/workflow/status/RocketSurgeonsGuild/Azure/ci.svg?label=github&logo=github&color=b845fc&logoColor=b845fc&style=flat "GitHub Actions Status"
+[github-history-badge]: https://buildstats.info/github/chart/RocketSurgeonsGuild/Azure?includeBuildsFromPullRequest=false "GitHub Actions History"
 [nuget-knzgr7p68etg]: https://www.nuget.org/packages/Rocket.Surgery.Azure.Storage/
 [nuget-version-knzgr7p68etg-badge]: https://img.shields.io/nuget/v/Rocket.Surgery.Azure.Storage.svg?color=004880&logo=nuget&style=flat-square "NuGet Version"
 [nuget-downloads-knzgr7p68etg-badge]: https://img.shields.io/nuget/dt/Rocket.Surgery.Azure.Storage.svg?color=004880&logo=nuget&style=flat-square "NuGet Downloads"
@@ -51,7 +50,4 @@ azurepipelines:
   account: rocketsurgeonsguild
   teamproject: Libraries
   builddefinition: 14
-appveyor:
-  account: RocketSurgeonsGuild
-  build: Azure
 -->
