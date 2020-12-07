@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <ItemGroup>
-    <GlobalPackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1" />
     <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" />
     <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" />
     <GlobalPackageReference Include="Rocket.Surgery.MSBuild.CI" Version="1.0.0" />
@@ -14,10 +13,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="GitVersion.Tool" Version="5.5.0" />
-    <PackageReference Update="JetBrains.ReSharper.CommandLineTools" Version="2020.2.4" />
-    <PackageReference Update="Nuke.Common" Version="0.25.0-alpha0334" />
+    <PackageReference Update="JetBrains.ReSharper.GlobalTools" Version="2020.2.4" />
+    <PackageReference Update="Nuke.Common" Version="0.25.0" />
     <PackageReference Update="ReportGenerator" Version="4.7.1" />
-    <PackageReference Update="Rocket.Surgery.Nuke" Version="0.14.0-beta.8" />
+    <PackageReference Update="Rocket.Surgery.Nuke" Version="0.14.2" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
@@ -47,4 +46,5 @@
     <PackageReference Update="xunit.analyzers" Version="0.10.0" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.3" />
   </ItemGroup>
+  <Import Project="$(MSBuildThisFileDirectory)/Packages.support.props" Condition="Exists('$(MSBuildThisFileDirectory)/Packages.support.props')" />
 </Project>
